@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage{listingsutf8}
+\usepackage[T1]{fontenc}
+\usepackage[backend=bibtex,style=verbose-trad2]{biblatex}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\bibliography{project_bib}
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\begin{document}
+
+\title{A study of IoT botnets}
+\author{Romaric FAVE rosf2}
+
+\maketitle
+\newpage
+
+\tableofcontents
+
+\begin{abstract}
+  This is an overview of the Snort NIDS solution in which we will see, what is an Intrusion Detection System and why Snort is different from others solutions. We will also see the architecture of Snort and some example of Snort rules to detect different packets..
+\end{abstract}
+
+\section{Introduction}
+This paper highlight the problems faced by the new connected things. The authors will explain how a generic framework will permit to face all this problematic such as Privacy and Security. Explaining all the parts of this framework they will also provide study case of their implementation.\newline
+\newline
+The purpose of this critical review is to analyze the work claim by the authors (did in 2015) in a time now where IoT devices are more and more focused by hackers\autocite{angrishi2017turning}.
+
+\twocolumn
+
+\onecolumn
+\section{Conclusion}
+This paper proposes a solution to cover the communication privacy and security of the IoT devices. The solution is really well explained on the abstract point of view, but the technical part is not really covered. This solution is for now more or less a Proof of Concept and need a real implementation with a community for maintenance behind. Maybe that will appear with the version two.\newline
+Because of my technical background reading this paper was pretty difficult because we don't have technical explanations and during all the paper the explanations given were very abstract.
+
+\section{Bibliography}
+\printbibliography
+
+
+\end{document}
