@@ -34,6 +34,14 @@ I want to thank...
 \chapter{Introduction}
 In our actual world we need in permanence control over a lot of things.The expansion of the IoT system permit to cover that need for us. All these new systems will create new possible target. 
 
+\chapter{Literature review}
+The purpose of this chapter is to explain the context of this research looking existing literature and software.\newline
+\newline
+\section{Mirai}
+I couldn't start this chapter without talking about Mirai. Mirai is an IoT botnet, but the most interesting thing about Mirai is that the source code of this botnet is now open source. At its peak, Mirai infected 4000 IoT devices
+per hour and currently it is estimated to have little more than half a million infected active IoT devices\autocite{angrishi2017turning}. Mirai botnet gain a certain amount of notoriety with the deny of service attack on october 21 2016. This attack was a new step in the distributed deny of service world with the new record of 1.1To/s against Dyn Managed DNS. Targeting this service make a huge part of the internet became inaccessible (Amazon.com, BBC, Paypal, Airbnb, Visa, etc) because Dyn wasn't able respond anymore.\newline
+Putting the sources of this botnet open source generated two things. First thing that is pretty nice is that a lot of research can be done with the code source analysis. But the problem is even if Anna-Senpai is not acting anymore (this is the pseudo used by the Mirai creator) the open source code as been used by a huge amount of script kiddies or by more professional author that will modify the code to be more powerfull and more secure.
+
 \chapter{Problem Description}
 The focus of this paper is the new approach of the hackers focusing on the IoT systems. Indeed in this paper we will use the definition of Angrishi, Kishore\autocite{angrishi2017turning} of IoT : ``these smart devices cannot be seen as specialized devices with intelligence built-in but rather as computers which does specialized jobs''. When looking IoT devices as computers that permit to understand some problems. Normaly now when someone use a computer, this is comon to have some antivirus on it or to do some practices to protect it. But is this common to do it on a watch ? a fridge ? or on a brand new bulb ? These Computers are less protected and this remain a huge issues for IoT devices\autocite{yang2017survey}. Because these things can more or less do the same things than ``normal'' computer. We will focus on the usage of the IoT devices on botnets by hackers. We will manage to find when a device is potentially infected by a botnet. The importance may not be obvious because who cares if your watch is part of a botnet that don't stop it to work. However these botnets are usualy used to make huge deny of service attacks\autocite{hallman2017ioddos}. Knowing that potentially some of our devices are insecure will permit us to change the security of our devices to prevent themself to feed some botnet.
 
