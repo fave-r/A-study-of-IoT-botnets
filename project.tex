@@ -84,7 +84,8 @@ Telnet is a pretty old protocol\autocite{davidson1977arpanet} however this proto
 \item Mirai\autocite{kolias2017ddos}
 \item Linux/IRCTelnet (new Aidra)\autocite{irctelnet}
 \end{itemize}
-All this existing botnets are based on the telnet vulnerability. They are bruteforcing the default user/password combination set by the manufacturer.
+All this existing botnets are based on the telnet vulnerability. They are bruteforcing the default user/password combination set by the manufacturer. Indeed based on the Carna botnet\autocite{carna} stats, even with a small dictionary a botnet can achieve a huge number of devices : ``in one day our binary was deployed to around one hundred thousand devices''.
+The comon thing with all these botnet is that they operate on device using BusyBox with default easy password, and this is going to take some time before manufactrer start to take this into consideration.
 
 \chapter{Implementation}
 \section{Web}
