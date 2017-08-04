@@ -66,7 +66,26 @@ In order to be able to start a project that will help to detect an infected devi
 A device infected by a botnet will need to be monitored by his C\&C server in some way. The malware will need to setup a small server that will monitor a port in order to receive the orders from the master machine. Knowing the ports used by a botnet and the form of the packet going from the C\&C to the machine can permit to catch an infected device. Indeed knowing this information can permit to make a monitoring device that will throw some alerts in case of weird detection.\newline
 In order to do this the analysis of the Mirai source code give the information that the bot will expect incoming data from the C\&C server on the port : 48101.
 But trying to analyse the only one pcap file (capture of packets) available online didn't give any information about the transmited packets.
-Analsing the code of the other one big IoT botnet Bashlite, didn't give us more information, the bot isn't listening on any ports but will be gathering on the C\&C periodicaly using by default the 6667 port.
+Analsing the code of the other one big IoT botnet Bashlite, didn't give us more information, the bot isn't listening on any ports but will be gathering new information on the C\&C periodicaly using by default the 6667 port.
+
+\section{Vulnerabilities}
+To investigate the major vulnerabilities this need to analyse some of the existing botnets.
+
+\subsection{Telnet}
+Telnet is a pretty old protocol\autocite{davidson1977arpanet} however this protocol is way more simple to implement than ssh. This is why this protocol as been choosen in the vast majority of the IoT devices. Looking on the history of the IoT botnet telnet has been choosen as the number one vulnerability of the devices:
+\begin{itemize}
+\item Psyb0t\autocite{durfina2013psybot}
+\item Chuck Norris\autocite{celeda2010embedded}
+\item LightAidra/Aidra\autocite{aidra}
+\item Carna\autocite{krenc2014internet} (carna original paper\autocite{carna})
+\item Linux.Wifatch\autocite{wifatch}
+\item BASHLITE\autocite{bashlite}
+\item KTN-Remastered / Linux/Remaiten\autocite{remaiten}
+\item Mirai\autocite{kolias2017ddos}
+\item Linux/IRCTelnet (new Aidra)\autocite{irctelnet}
+\end{itemize}
+All this existing botnets are based on the telnet vulnerability. They are bruteforcing the default user/password combination set by the manufacturer.
+
 \chapter{Implementation}
 \section{Web}
 
