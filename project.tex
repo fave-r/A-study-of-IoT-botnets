@@ -6,6 +6,7 @@
 \usepackage[backend=biber]{biblatex}
 \usepackage{listings}
 \usepackage{datetime}
+\usepackage{graphicx}
 
 \newdateformat{monthyeardate}{%
   \monthname[\THEMONTH], \THEYEAR
@@ -73,26 +74,61 @@ To investigate the major vulnerabilities this need to analyse some of the existi
 
 \subsection{Telnet}
 Telnet is a pretty old protocol\autocite{davidson1977arpanet} however this protocol is way more simple to implement than ssh. This is why this protocol as been choosen in the vast majority of the IoT devices. Looking on the history of the IoT botnet telnet has been choosen as the number one vulnerability of the devices:
+
 \begin{itemize}
-\item Psyb0t\autocite{durfina2013psybot}
-\item Chuck Norris\autocite{celeda2010embedded}
-\item LightAidra/Aidra\autocite{aidra}
-\item Carna\autocite{krenc2014internet} (carna original paper\autocite{carna})
-\item Linux.Wifatch\autocite{wifatch}
-\item BASHLITE\autocite{bashlite}
-\item KTN-Remastered / Linux/Remaiten\autocite{remaiten}
-\item Mirai\autocite{kolias2017ddos}
-\item Linux/IRCTelnet (new Aidra)\autocite{irctelnet}
+ \item Psyb0t\autocite{durfina2013psybot}
+ \item Chuck Norris\autocite{celeda2010embedded}
+ \item LightAidra/Aidra\autocite{aidra}
+ \item Carna\autocite{krenc2014internet} (carna original paper\autocite{carna})
+ \item Linux.Wifatch\autocite{wifatch}
+ \item BASHLITE\autocite{bashlite}
+ \item KTN-Remastered / Linux/Remaiten\autocite{remaiten}
+ \item Mirai\autocite{kolias2017ddos}
+ \item Linux/IRCTelnet (new Aidra)\autocite{irctelnet}
 \end{itemize}
+
 All this existing botnets are based on the telnet vulnerability. They are bruteforcing the default user/password combination set by the manufacturer. Indeed based on the Carna botnet\autocite{carna} stats, even with a small dictionary a botnet can achieve a huge number of devices : ``in one day our binary was deployed to around one hundred thousand devices''.
-The comon thing with all these botnet is that they operate on device using BusyBox with default easy password, and this is going to take some time before manufactrer start to take this into consideration.
+The comon thing with all these botnet is that they operate on device using BusyBox with default easy password, and this is going to take some time before manufactrer start to take this into consideration.\newline
+\begin{figure}[h]
+ \caption{Example of some username/password hardcoded in the Mirai source code}
+ \centering
+ \includegraphics[width=1.2\textwidth]{mirai-dict}
+ \label{fig:mirai-dict}
+\end{figure}
+As you can see in the figure \ref{fig:mirai-dict} the dictionnary use very simple combination of username/password to bruteforce the telnet connection.
 
-\chapter{Implementation}
-\section{Web}
+\subsection{Other vulnerabilities}
+Here his an analysis of the others major botnets and the vulnerabilities they're using.
 
-\section{Mobile}
+\begin{itemize}
+ \item Tsunami/Kaiten.c\autocite{tsunami} : FTP and HTTP
+ \item Linux.Darlloz\autocite{darlloz} : PHP
+ \item Spike/Dofloo\autocite{spike} : MIPS and ARM architectures 
+\end{itemize}
 
-\section{Computer}
+This overview of the IoT botnet vulnerability usage show multiple things:
+\begin{enumerate}
+ \item Telnet bruteforce is the most common vulnerability used by the majority of the botnets.
+ \item In order to make a botnet you need to find some vulnerabily that is common of the majority of the IoT devices
+ \item A huge majority of the IoT devices are based on a Linux variant
+\end{enumerate}
+
+\chapter{Project}
+\section{Analysis and choices}
+The most important security breach in the IoT devices is the mean of communication and the most used in the IoT botnets is : telnet. The Goal of this project is to be able to detect a vulnerable device. 
+
+\section{implementation}
+This project in order to be able to detect the most number of vulnerable device possible is devided in three different parts. A website, an Android application and a computer ruby application. 
+\subsection{Web}
+The choice of a web application as ben made because a web application can be accessed by anybody and permit to make the test available to anyone.
+
+\subsection{Mobile}
+A mobile aplication became something really important now. The choice of this technology permit to use a mobile device and scan for a vulnerable device easily.
+
+\subsubsection{Android}
+Android is not the only one, but it's the one that is well represented and were you can program on any operating system. Indeed the  
+
+\subsection{Computer}
 
 \chapter{Testing}
 
@@ -101,5 +137,6 @@ This is the conclusion of this paper, we will need to do it at the end
 
 \printbibliography
 
+\listoffigures
 
 \end{document}
