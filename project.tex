@@ -60,7 +60,15 @@ per hour and currently it is estimated to have little more than half a million i
 Putting the sources of this botnet open source generated two things. First thing that is pretty nice is that a lot of research can be done with the code source analysis. But the problem is even if Anna-Senpai is not acting anymore (this is the pseudo used by the Mirai creator) the open source code as been used by a huge amount of script kiddies or by more professional author that will modify the code to be more powerfull and more secure. Since the code is open source pretty much all the recent attacks made on IoT used the same approach than Mirai : telnet bruteforce.
 One evolution of Mirai was Linux/IRCTelnet which also use telnet bruteforce and the same dictionary as Mirai to infiltrate the device.\newline
 \newline
-Mirai is designed in such way that any infected device try to infect any other device around him. Mirai is also designed in that the scan for new device that can be infected is always active. This permit to spread the infection very quickly. Also if a device infected is factory reseted most likely this device will be infected very quickly because their neighbours are scanning. Mirai was the big step in the IoT botnets world.
+Mirai is designed in such way that any infected device try to infect any other device around him. Mirai is also designed in that the scan for new device that can be infected is always active. This permit to spread the infection very quickly. Also if a device infected is factory reseted most likely this device will be infected very quickly because their neighbours are scanning. Mirai was the big step in the IoT botnets world.\newline
+\newline
+\begin{figure}[h]
+ \caption{Mirai fonctionement : source\autocite{kolias2017ddos}}
+ \centering
+ \includegraphics[width=1.2\textwidth]{botnet-fonct}
+ \label{fig:botnet-fonct}
+\end{figure}
+As you can see in the figure \ref{fig:botnet-fonct}, the fonctionement of an IoT botnet is pretty simple, each device will infect new devices, that will be reported to the master, and the master can control every device infected.
 
 \chapter{Problem Description}
 The focus of this paper is the new approach of the hackers focusing on the IoT systems. When looking IoT devices as computers that permit to understand some problems. Normaly now when someone use a computer, this is comon to have some antivirus on it or to do some practices to protect it. But is this common to do it on a watch ? a fridge ? or on a brand new bulb ? These Computers are less protected and this remain a huge issues for IoT devices\autocite{yang2017survey}. Because these things can more or less do the same things than ``normal'' computer. We will focus on the usage of the IoT devices on botnets by hackers. We will manage to find when a device is potentially infected by a botnet. The importance may not be obvious because who cares if your watch is part of a botnet that don't stop it to work. However these botnets are usualy used to make huge deny of service attacks\autocite{hallman2017ioddos}. Knowing that potentially some of our devices are insecure will permit us to change the security of our devices to prevent themself to feed some botnet.\newline
@@ -136,6 +144,7 @@ The problem with this one was that the informations that we could gather with an
 This project in order to be able to detect the most number of vulnerable device possible is devided in three different parts. A website, an Android application and a computer ruby application.
 \subsection{Web}
 The choice of a web application has ben made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application this can be accessed with the url : \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
+\subsubsection{}
 The application will make a nmap scan for some ports.
 \begin{itemize}
  \item 22 This is the ssh port which is more secure than telnet
