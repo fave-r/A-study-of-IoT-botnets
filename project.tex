@@ -144,13 +144,27 @@ The problem with this one was that the informations that we could gather with an
 This project in order to be able to detect the most number of vulnerable device possible is devided in three different parts. A website, an Android application and a computer ruby application.
 \subsection{Web}
 The choice of a web application has ben made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application this can be accessed with the url : \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
-\subsubsection{}
+\subsubsection{Explanations}
 The application will make a nmap scan for some ports.
 \begin{itemize}
  \item 22 This is the ssh port which is more secure than telnet
  \item 23 This is the telnet port
  \item 2323 This is a port found on Mirai source code, and sometime used as alternate port for telnet
  \item 28101 This is a port used by Mirai to dialog with the C\&C server
+\end{itemize}
+Each call for an IP scan is saved on a postgresql database in order to permit futur statistics on the scans. Whith the knowledge of the Mirai botnet, and the analysis of the state of the ports the different response that can be given by the web application are:
+\begin{itemize}
+\item 23 port open\newline
+  Warning : Telnet port is open be carefull not to use a default password (prefer ssh)
+\item 23 port filtered\newline
+  Warning
+\item 2323 port open\newline
+  Warning : Telnet "other" port is open be carefull not to use it as telnet specially with default password (prefer ssh)
+\item 2323 port filtered\newline
+  Warning : Telnet "other" port is filtered (so we don't know) be carefull not to use it as telnet specially with default password (prefer ssh)
+\item 28101 port open and 23, 22, 80 ports closed\newline
+  Danger : Mirai certainly present on this device !!
+\ittem 28101
 \end{itemize}
 
 \subsection{Mobile}
