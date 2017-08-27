@@ -7,6 +7,7 @@
 \usepackage{listings}
 \usepackage{datetime}
 \usepackage{graphicx}
+\usepackage{rotating}
 
 \newdateformat{monthyeardate}{%
   \monthname[\THEMONTH], \THEYEAR
@@ -63,9 +64,9 @@ One evolution of Mirai was Linux/IRCTelnet which also use telnet bruteforce and 
 Mirai is designed in such way that any infected device try to infect any other device around him. Mirai is also designed in that the scan for new device that can be infected is always active. This permit to spread the infection very quickly. Also if a device infected is factory reseted most likely this device will be infected very quickly because their neighbours are scanning. Mirai was the big step in the IoT botnets world.\newline
 \newline
 \begin{figure}[h]
- \caption{Mirai fonctionement : source\autocite{kolias2017ddos}}
+ \caption{Mirai fonctionement. IEEE\autocite{kolias2017ddos}}
  \centering
- \includegraphics[width=1.2\textwidth]{botnet-fonct}
+ \includegraphics[width=1.2\textwidth]{./img/botnet-fonct}
  \label{fig:botnet-fonct}
 \end{figure}
 As you can see in the figure \ref{fig:botnet-fonct}, the fonctionement of an IoT botnet is pretty simple, each device will infect new devices, that will be reported to the master, and the master can control every device infected.
@@ -105,7 +106,7 @@ The comon thing with all these botnet is that they operate on device using BusyB
 \begin{figure}[h]
  \caption{Example of some username/password hardcoded in the Mirai source code}
  \centering
- \includegraphics[width=1.2\textwidth]{mirai-dict}
+ \includegraphics[width=1.2\textwidth]{./img/mirai-dict}
  \label{fig:mirai-dict}
 \end{figure}
 As you can see in the figure \ref{fig:mirai-dict} the dictionnary use very simple combination of username/password to bruteforce the telnet connection.
@@ -140,17 +141,46 @@ That's why the new idea was to use a mobile device, in this case a mobile phone 
 The problem with this one was that the informations that we could gather with an Android device wasn't enought if we have very similar device to find which device is which. The idea was to use nmap to gather information of the target operating system. In that case that can only be done on a rooted android device. That's why the new idea as been to make the project working on computer, so the new idea is a Ruby application. The new advantage of this project is that he scan the subnetwork either on wifi or wired.
 
 \chapter{Project}
-\section{implementation}
+\section{Analysing the bruteforce process of Malwares}
+In order to make the bruteforce process the most efficient and equivalent to the one the malwares implements we need to understand how the bruteforce process is done on the malwares.
+\begin{sidewaysfigure}[h]
+ \caption{Bruteforce process in the bashlite malware}
+ \includegraphics[width=1.2\textwidth]{./img/bashlite-bruteforce}
+ \label{fig:bashlite-brute}
+\end{sidewaysfigure}
+As you can see in the figure \ref{fig:bashlite-brute} the bruteforce process work this way :
+\begin{itemize}
+\item There is an infinite loop with a switch case
+
+\item Depending the state the program will read the letters until a certain word
+
+\item If there is the letters "ncorrect" that means the server reply that the credentials are incorrects the client restart the loop with the state 0
+
+\item If there is the letters "assword" that means the server is expecting the password to be entered so that set the state 5 which will send the password associated with the login used
+\end{itemize}
+
+The Mirai malware work on the same way and had also a state system. After the state were the malware enter the password it enter on the state called ``SC\_WAITING\_PASSWD\_RESP''. In this state it will use the fonction called ``consume\_any\_prompt'' (figure \ref{fig:mirai-prompt}) to know if the the device has been bruteforced or not.
+
+\begin{sidewaysfigure}[h]
+  \caption{Mirai source code : ``consume\_any\_prompt'' fonction}
+ \centering
+ \includegraphics[width=1.2\textwidth]{./img/mirai-prompt}
+ \label{fig:mirai-prompt}
+\end{sidewaysfigure}
+That means that a the prompt need to contain at least 2 characters in this list : ``':', '>', '\$', '\#', '\%''' in all the other case that will not be considered as a prompt and the process will think that the authentification failed.
+
+\section{Implementation}
 This project in order to be able to detect the most number of vulnerable device possible is devided in three different parts. A website, an Android application and a computer ruby application.
 \subsection{Web}
-The choice of a web application has ben made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application this can be accessed with the url : \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
+The choice of a web application has ben made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application thats can be accessed with the url : \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
+
 \subsubsection{Explanations}
 The application will make a nmap scan for some ports.
 \begin{itemize}
  \item 22 This is the ssh port which is more secure than telnet
  \item 23 This is the telnet port
  \item 2323 This is a port found on Mirai source code, and sometime used as alternate port for telnet
- \item 28101 This is a port used by Mirai to dialog with the C\&C server
+ \item 48101 This is a port used by Mirai to dialog with the C\&C server
 \end{itemize}
 Each call for an IP scan is saved on a postgresql database in order to permit futur statistics on the scans. Whith the knowledge of the Mirai botnet, and the analysis of the state of the ports the different response that can be given by the web application are:
 \begin{itemize}
@@ -164,18 +194,36 @@ Each call for an IP scan is saved on a postgresql database in order to permit fu
   Warning : Telnet "other" port is filtered (so we don't know) be carefull not to use it as telnet specially with default password (prefer ssh)
 \item 28101 port open and 23, 22, 80 ports closed\newline
   Danger : Mirai certainly present on this device !!
-\ittem 28101
+\item 48101 port filtered and and 23, 22, 80 ports closed\newline
+  Warning : Mirai may be present on this device
 \end{itemize}
+This can be explained because of the fonctionement of Mirai which has been the most dangerous botnet for now. Indeed the malware will kill the telnet, ssh and http services once it start on the device. This means that if we find rhe port used by Mirai to comunicate with the master open  with telnet, ssh and http closed that there is a huge possibility that Mirai is active on this device.
 
 \subsection{Mobile}
 A mobile aplication became something really important now. The choice of this technology permit to use a mobile device and scan for a vulnerable device easily.
 
 \subsubsection{Android}
-Android is not the only one, but it's the one that is well represented and were you can program on any operating system. Because of that Android as been the choosen to be the mobile platform of this project.
+Android is not the only one, but it's the one that is well represented and were you can program on any operating system. Because of that Android has been the choosen to be the mobile platform of this project.
 
 \subsubsection{Language, Development and version control}
-Because of Android the language used on this mobile application is Java. Even if Android provide a support for C++ language using C++ for this application can be a bit overkill and more difficult because of there is less library for C++ on Android than with Java.\newline
-The application source code that can be found on the Corpus on the vulscan-android folder as been developed on Android studio which is the IDE provided by Google.
+Because of Android the language used on this mobile application is Java. Even if Android provide a support for C++ language using C++ for this application can be a bit overkill and more difficult because there is less library for C++ on Android than with Java.\newline
+The application source code that can be found on the Corpus on the vulscan-android folder has been developed on Android studio which is the IDE provided by Google.\newline
+During all the project the source code has been versioned using git on Github platform.
+
+\subsubsection{Explanation}
+The android application called Vulscan for vulnerability scanner will scan the Wifi to find device vulnerable to Mirai and alternative botnets using exactly the same bruteforce approach that the code of the malware.
+\begin{figure}[h]
+ \caption{Screenshot of the application}
+ \centering
+ \includegraphics[width=0.5\textwidth]{./img/screen-act}
+ \label{fig:screen-act}
+\end{figure}
+
+\subsubsection{Details}
+Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:mirai-dict}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
+
+\subsubsection{Bruteforce process}
+
 
 \subsection{Computer}
 
