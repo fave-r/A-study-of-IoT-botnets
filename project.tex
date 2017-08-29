@@ -127,20 +127,6 @@ This overview of the IoT botnet vulnerability usage show multiple things:
  \item A huge majority of the IoT devices are based on a Linux variant
 \end{enumerate}
 
-\chapter{Methodology}
-\section{Analysis and choices}
-As presented during the vulnerability analysis, the choice made by the majority of the IoT hackers botnet creator is to use telnet to access the device. \newline
-The first choice during the evolution of the project has been to focus on the botnets that are bruteforcing the telnet connection because this is the majority of the botnets.
-This is the most important security breach in the IoT devices, the mean of communication and the most used in the IoT botnets is : telnet. The Goal of this project is to be able to detect a vulnerable device.
-
-\section{Evolution}
-At the start of the project the first thing has been to analyse the source code of the Mirai botnet. Indeed because the source code is now open source looking the source code permit to understand how a botnet malware actually work. This step give us a lot of informations like the port that is used by the malware to communicate with the master.\newline
-Having this information the first idea has been to create a web application that scan a device and with the knowledge of the existing botnets it will give the result to know if this device is possibly infected or not.\newline
-After this first achievement the other idea has been to be more accessible to a novice user. Inded with the previous usage this was a bit difficult to analyse your home or other place.\newline
-That's why the new idea was to use a mobile device, in this case a mobile phone and use the same steps seen in the Mirai source code to see in our connected wifi if some device are vulnerable to this type of attack.\newline
-The problem with this one was that the informations that we could gather with an Android device wasn't enought if we have very similar device to find which device is which. The idea was to use nmap to gather information of the target operating system. In that case that can only be done on a rooted android device. That's why the new idea as been to make the project working on computer, so the new idea is a Ruby application. The new advantage of this project is that he scan the subnetwork either on wifi or wired.
-
-\chapter{Project}
 \section{Analysing the bruteforce process of Malwares}
 In order to make the bruteforce process the most efficient and equivalent to the one the malwares implements we need to understand how the bruteforce process is done on the malwares.
 \begin{sidewaysfigure}[h]
@@ -167,12 +153,31 @@ The Mirai malware work on the same way and had also a state system. After the st
  \includegraphics[width=1.2\textwidth]{./img/mirai-prompt}
  \label{fig:mirai-prompt}
 \end{sidewaysfigure}
-That means that a the prompt need to contain at least 2 characters in this list : ``':', '>', '\$', '\#', '\%''' in all the other case that will not be considered as a prompt and the process will think that the authentification failed.
+That means that the prompt need to contain at least 2 characters in this list : ``':', '>', '\$', '\#', '\%''' in all the other case that will not be considered as a prompt and the process will think that the authentification failed.
 
+\chapter{Methodology}
+\section{Analysis and choices}
+As presented during the vulnerability analysis, the choice made by the majority of the IoT hackers botnet creator is to use telnet to access the device. \newline
+The first choice during the evolution of the project has been to focus on the botnets that are bruteforcing the telnet connection because this is the majority of the botnets.
+This is the most important security breach in the IoT devices, the mean of communication and the most used in the IoT botnets is : telnet. The Goal of this project is to be able to detect a vulnerable device.
+
+\section{Evolution}
+At the start of the project the first thing has been to analyse the source code of the Mirai botnet. Indeed because the source code is now open source looking the source code permit to understand how a botnet malware actually work. This step give us a lot of informations like the port that is used by the malware to communicate with the master.\newline
+Having this information the first idea has been to create a web application that scan a device and with the knowledge of the existing botnets it will give the result to know if this device is possibly infected or not.\newline
+After this first achievement the other idea has been to be more accessible to a novice user. Inded with the previous usage this was a bit difficult to analyse your home or other place.\newline
+That's why the new idea was to use a mobile device, in this case a mobile phone and use the same steps seen in the Mirai source code to see in our connected wifi if some device are vulnerable to this type of attack.\newline
+The problem with this one was that the informations that we could gather with an Android device wasn't enought if we have very similar device to find which device is which. The idea was to use nmap to gather information of the target operating system. In that case that can only be done on a rooted android device. That's why the new idea as been to make the project working on computer, so the new idea is a Ruby application. The new advantage of this project is that he scan the subnetwork either on wifi or wired.
+
+\chapter{Project}
 \section{Implementation}
 This project in order to be able to detect the most number of vulnerable device possible is devided in three different parts. A website, an Android application and a computer ruby application.
 \subsection{Web}
 The choice of a web application has ben made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application thats can be accessed with the url : \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
+
+\subsubsection{Addressed problems}
+The main goal of the web application is to quickly know if a device if an IoT (or not) device is infected by a Mirai variant or isn't secure enought and the security need to be checked.
+
+\subsubsection{}
 
 \subsubsection{Explanations}
 The application will make a nmap scan for some ports.
@@ -192,7 +197,7 @@ Each call for an IP scan is saved on a postgresql database in order to permit fu
   Warning : Telnet "other" port is open be carefull not to use it as telnet specially with default password (prefer ssh)
 \item 2323 port filtered\newline
   Warning : Telnet "other" port is filtered (so we don't know) be carefull not to use it as telnet specially with default password (prefer ssh)
-\item 28101 port open and 23, 22, 80 ports closed\newline
+\item 48101 port open and 23, 22, 80 ports closed\newline
   Danger : Mirai certainly present on this device !!
 \item 48101 port filtered and and 23, 22, 80 ports closed\newline
   Warning : Mirai may be present on this device
@@ -223,7 +228,7 @@ The android application called Vulscan for vulnerability scanner will scan the W
 Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:mirai-dict}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
 
 \subsubsection{Bruteforce process}
-
+For each device found in the subnetwork a Bruteforce process is started
 
 \subsection{Computer}
 
