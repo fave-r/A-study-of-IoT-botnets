@@ -41,6 +41,9 @@ I want to thank...
 \chapter{Introduction}
 In our actual world we need in permanence control over a lot of things.The expansion of the IoT system permit to cover that need for us. All these new systems will create new possible target. 
 
+\subsection{Structure}
+will explain the structure here
+
 \chapter{Preliminaries}
 \section{Botnets}
 In order to present my study on the botnets acting on Internet of Things devices I will start explaining what is a botnet. A botnet is composed by a bot in charge of the infection using well knowed exploit for vulnerable machine. The bot may be capable of self-propagation that will make the infection grow very quickly. The difference with other malware is the usage of a command and control (C\&C) capacity. The bots are(may) always (be)connected to the C\&C, this ability permit to the master machine to control all the bots. For example the master can make distributed denial-of-service attack asking all his bots to make a lots of request on the same server in order to make the server unable to respond.
@@ -175,9 +178,10 @@ This project in order to be able to detect the most number of vulnerable device 
 The choice of a web application has ben made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application thats can be accessed with the url : \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
 
 \subsubsection{Addressed problems}
-The main goal of the web application is to quickly know if a device if an IoT (or not) device is infected by a Mirai variant or isn't secure enought and the security need to be checked.
+The main goal of the wed application is to quickly know if an IoT (or not) device is infected by a Mirai variant or isn't secure enought and the security need to be checked. This application will propose the result with only an IP given as parameter.
 
-\subsubsection{}
+\subsubsection{General informations}
+The project has been done using the Ruby on Rails framework which is a web framework for the Ruby language. The framework permit overcome a lot of time wasting thanks to a lot of things already implemented in the framework. The framework is based on the Model-View-Controller design pattern. That means that there is two principal calsses Controller and Model : Controlleur with the logic and Model corresponding to the data. In this project the only model used is the scan class, technically this model correspond to the database table scan that will log each scan.
 
 \subsubsection{Explanations}
 The application will make a nmap scan for some ports.
