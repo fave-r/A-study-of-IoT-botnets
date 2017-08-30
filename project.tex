@@ -39,7 +39,7 @@ This is the start of the paper I need to write it at the end
 I want to thank...
 
 \chapter{Introduction}
-In our actual world we need in permanence control over a lot of things.The expansion of the IoT system permit to cover that need for us. All these new systems will create new possible target. 
+In our actual world we need in permanence control over a lot of things.The expansion of the IoT system permit to cover that need for us. All these new systems will create new possible target.
 
 \subsection{Structure}
 will explain the structure here
@@ -120,7 +120,7 @@ Here his an analysis of the others major botnets and the vulnerabilities they're
 \begin{itemize}
  \item Tsunami/Kaiten.c\autocite{tsunami} : FTP and HTTP
  \item Linux.Darlloz\autocite{darlloz} : PHP
- \item Spike/Dofloo\autocite{spike} : MIPS and ARM architectures 
+ \item Spike/Dofloo\autocite{spike} : MIPS and ARM architectures
 \end{itemize}
 
 This overview of the IoT botnet vulnerability usage show multiple things:
@@ -181,7 +181,16 @@ The choice of a web application has ben made because a web application can be ac
 The main goal of the wed application is to quickly know if an IoT (or not) device is infected by a Mirai variant or isn't secure enought and the security need to be checked. This application will propose the result with only an IP given as parameter.
 
 \subsubsection{General informations}
-The project has been done using the Ruby on Rails framework which is a web framework for the Ruby language. The framework permit overcome a lot of time wasting thanks to a lot of things already implemented in the framework. The framework is based on the Model-View-Controller design pattern. That means that there is two principal calsses Controller and Model : Controlleur with the logic and Model corresponding to the data. In this project the only model used is the scan class, technically this model correspond to the database table scan that will log each scan.
+The project has been done using the Ruby on Rails framework which is a web framework for the Ruby language. The framework permit overcome a lot of time wasting thanks to a lot of common needs  already implemented in the framework. The framework is based on the Model-View-Controller design pattern. That means that there is two principal class Controller and Model : Controlleur with the logic and Model corresponding to the data. In this project the only model used is the scan class, technically this model correspond to the database table ``scan'' that will log each scan. The most of the code is contained on the show method of the ScansController class.
+
+\subsubsection{Interface}
+\begin{figure}[h]
+ \caption{Result interface}
+ \centering
+ \includegraphics[width=1.3\textwidth]{./img/vulweb-result}
+ \label{fig:screen-act}
+\end{figure}
+The interface has been done as simple as possible, using the bootsrap library\autocite{bootstrap} which is an open source toolkit that help building the front part of a website providing a responsive grid system.
 
 \subsubsection{Explanations}
 The application will make a nmap scan for some ports.
@@ -206,7 +215,7 @@ Each call for an IP scan is saved on a postgresql database in order to permit fu
 \item 48101 port filtered and and 23, 22, 80 ports closed\newline
   Warning : Mirai may be present on this device
 \end{itemize}
-This can be explained because of the fonctionement of Mirai which has been the most dangerous botnet for now. Indeed the malware will kill the telnet, ssh and http services once it start on the device. This means that if we find rhe port used by Mirai to comunicate with the master open  with telnet, ssh and http closed that there is a huge possibility that Mirai is active on this device.
+This can be explained because of the fonctionement of Mirai which has been the most dangerous botnet for now. Indeed the malware will kill the telnet, ssh and http services once it start on the device. This means that if we find the port used by Mirai to comunicate with the master open,  with telnet, ssh and http closed that there is a huge possibility that Mirai is active on this device.
 
 \subsection{Mobile}
 A mobile aplication became something really important now. The choice of this technology permit to use a mobile device and scan for a vulnerable device easily.
@@ -219,8 +228,8 @@ Because of Android the language used on this mobile application is Java. Even if
 The application source code that can be found on the Corpus on the vulscan-android folder has been developed on Android studio which is the IDE provided by Google.\newline
 During all the project the source code has been versioned using git on Github platform.
 
-\subsubsection{Explanation}
-The android application called Vulscan for vulnerability scanner will scan the Wifi to find device vulnerable to Mirai and alternative botnets using exactly the same bruteforce approach that the code of the malware.
+\subsubsection{Explanation and interface}
+The android application called Vulscan for vulnerability scanner will scan the Wifi to find device vulnerable to Mirai and alternative botnets using exactly the same bruteforce approach that the code of the malware. If a device is vulnerable (the login and password association is in the dictionary used) it will be displayed in red, if not it will be displayed in green.
 \begin{figure}[h]
  \caption{Screenshot of the application}
  \centering
@@ -229,7 +238,7 @@ The android application called Vulscan for vulnerability scanner will scan the W
 \end{figure}
 
 \subsubsection{Details}
-Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:mirai-dict}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
+Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:mirai-dict}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork (. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
 
 \subsubsection{Bruteforce process}
 For each device found in the subnetwork a Bruteforce process is started
