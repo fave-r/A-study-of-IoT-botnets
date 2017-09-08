@@ -229,7 +229,7 @@ The application source code that can be found on the Corpus on the vulscan-andro
 During all the project the source code has been versioned using git on Github platform.
 
 \subsubsection{Explanation and interface}
-The android application called Vulscan for vulnerability scanner will scan the Wifi to find device vulnerable to Mirai and alternative botnets using exactly the same bruteforce approach that the code of the malware. If a device is vulnerable (the login and password association is in the dictionary used) it will be displayed in red, if not it will be displayed in green.
+The android application called Vulscan for vulnerability scanner will scan the Wifi where the device is connected to find devices that are vulnerable to Mirai and alternative botnets using exactly the same bruteforce approach that the code of the malware. If a device is vulnerable (the login and password association is in the dictionary used) it will be displayed in red, if not it will be displayed in green.
 \begin{figure}[h]
  \caption{Screenshot of the application}
  \centering
@@ -240,19 +240,56 @@ The android application called Vulscan for vulnerability scanner will scan the W
 \subsubsection{Details}
 Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:mirai-dict}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork (. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
 
-\lstset{language=Java}
 \subsubsection{Bruteforce process}
 For each device found in the subnetwork a Bruteforce process is started, this Buteforce process is represented by the asyncBruteForceTelnet class.\newline
 Code on the scan process:
+\lstset{language=Java}
 \begin{lstlisting}[frame=single]
 asyncBruteForceTelnet bf = new asyncBruteForceTelnet(this.
 myact, values[0]);
 
 bf.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 \end{lstlisting}
-bf is the variable that contain the object of the type asyncBruteForceTelnet which is the class representing the bruteforce process. The bruteforce process is run with ``executeOnExecutor(AsyncTask.THREAD\_POOL\_EXECUTOR);'' so all the bruteforce process are run in parallel. Indeed a bruteforce is a long going task so it need to be done in background and simultaneously to not freeze the device.
+bf is the variable that contain the object of the type asyncBruteForceTelnet which is the class representing the bruteforce process. The bruteforce process is run with ``executeOnExecutor(AsyncTask.THREAD\_POOL\_EXECUTOR);'' so all the bruteforce process are run in parallel. Indeed a bruteforce is a long going task so it need to be done in background and simultaneously to not freeze the device.\newline
+The asyncBruteForceTelnet class extend the class AsyncTask that means that this class will be run in background. The dictionnary used to try to bruteforce the devices is a combination of the Mirai and the Bashlite dictionary and is stored in a unmodifiable class variable list to use the less memory possible.\newline
+The language used is Java, so to handle the the telnet process the library ``org.apache.commons.net.telnet.TelnetClient'' is used. This library permit to establish a connection socket, but in order to create our bruteforce process and be the really close to the process used by the botnets we need to have a code relatively close to the botnet code. That's why the ``public boolean checkConnected()'' method in the asyncBruteForceTelnet class use exactly the same characters than the Mirai source code (figure \ref{fig:mirai-prompt}) to identify if we're now login into the device:
+\begin{figure}[h]
+ \caption{checkConnected method from asyncBruteForceTelnet (corpus)}
+ \centering
+ \includegraphics[width=1\textwidth]{./img/checkconnected-apk}
+ \label{fig:checkconnected}
+\end{figure}
+
+The aplication has been made to send enought informations to the final user, but beeing the most efficient possible because it will run on a mobile device possibly not with a huge amount of RAM and a recent processor.
 
 \subsection{Computer}
+In order to analyse more devices and to gather more informations on the scanned devices:
+\begin{itemize}
+ \item Operating system of the scanned device
+ \item Launch a scan on a cabled network
+\end{itemize}
+The idea has been to make the same type of aplication (Vulscan mobile) on a computer.
+
+\subsubsection{Language, Development and version control}
+The idea was to make a cross-platform application, in order to do that an interpreted language has been used, in this case Ruby.
+The software can be find in the ``vulscan-ruby'' folder on the corpus. This application has been developed using emacs on a Linux environment.\newline
+During all the project the source code has been versioned using git on Github platform.
+
+\subsubsection{Explanation}
+The application has been developped in order to be very modular and respecting the standard good practices. In order to do that the code is separated in multiple class whith each one a very specific role. In order to launch a scan a script has been added to the code ``script.rb''.\newline
+The code use some external libraries to perfom some actions:
+\begin{itemize}
+ \item Sucker Punch \autocite{suckerpunch}: This is an asynchronous processing library (make the bruteforce process running background)
+ \item Net::Telnet \autocite{nettelnet}: Provides telnet functionality
+ \item ARPScan \autocite{arpscan}: This is a wrapper for the arp-scan executable that help to recover MAC adresses
+ \item net-ping \autocite{netping}: Easier way to ping devices
+ \item ruby-nmap \autocite{rubynmap}: Ruby interface for the nmap executable
+\end{itemize}
+With all these libraries the code will also use two executable:
+\begin{itemize}
+ \item arp-scan \autocite{arp-scan}: This executable permit to perform ARP requests
+ \item nmap \autocite{nmap}: This executable is an utility for network discovery and security auditing
+\end{itemize}
 
 \chapter{Testing}
 
