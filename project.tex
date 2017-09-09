@@ -5,6 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[backend=biber]{biblatex}
 \usepackage{listings}
+\usepackage{fancyvrb}
 \usepackage{datetime}
 \usepackage{graphicx}
 \usepackage{rotating}
@@ -41,7 +42,7 @@ I want to thank...
 \chapter{Introduction}
 In our actual world we need in permanence control over a lot of things.The expansion of the IoT system permit to cover that need for us. All these new systems will create new possible target.
 
-\subsection{Structure}
+\section{Structure}
 will explain the structure here
 
 \chapter{Preliminaries}
@@ -259,7 +260,7 @@ The language used is Java, so to handle the the telnet process the library ``org
  \includegraphics[width=1\textwidth]{./img/checkconnected-apk}
  \label{fig:checkconnected}
 \end{figure}
-
+The code as in the malware Mirai will first try to bruteforce on the port 23 and after if that didn't work will try on the port 2323.\newline
 The aplication has been made to send enought informations to the final user, but beeing the most efficient possible because it will run on a mobile device possibly not with a huge amount of RAM and a recent processor.
 
 \subsection{Computer}
@@ -290,8 +291,71 @@ With all these libraries the code will also use two executable:
  \item arp-scan \autocite{arp-scan}: This executable permit to perform ARP requests
  \item nmap \autocite{nmap}: This executable is an utility for network discovery and security auditing
 \end{itemize}
+The software will be able to work on any computer, as long as all the libraries (called gem in Ruby) and the two executables are present.
+
+\subsubsection{Details and differences with the Android software}
+The major difference is that the software will use the preferend network as follow:
+\begin{enumerate}
+ \item cabled network (RJ45)
+ \item wifi
+\end{enumerate}
+If a cabled network is available the software will scan this network, if not it will use the wifi network. If there's no network available the software will do nothing and quit.\newline
+Another difference with the Android software is that the Ruby application will use nmap to try to guess the Operating System of the target see figure \ref{fig:result-os} for an exemple.
+\begin{sidewaysfigure}[h]
+ \caption{Exemple of result of the vulscan Ruby software}
+ \centering
+ \includegraphics[width=1.2\textwidth]{./img/result-os}
+ \label{fig:result-os}
+\end{sidewaysfigure}
+
+\subsubsection{Interface}
+This software is more dedicated to an advertised public, indeed there is no graphical user interface the only way to interact and receive the results from the software is from console. But the software has been done in the way that no configuration or needs from the user (other than press ctrl+c to exit) is needed. When a bruteforce is on going the results are printed on the console, so the user can know all the login/passwords tested and the valid credentials if the device is bruteforced.
+
+\subsubsection{Details}
+In order to launch a scan the method ``sniff'' from an object of type ``NetworkSniff'' need to be called. Indeed that will launch a scan and all the process will be running. This method will run and ping all the possible device on the subnetwork and each time one device is found a bruteforce process will be run in background thanks to the gem ``Sucker Punch'' \autocite{suckerpunch}:
+
+\lstset{language=Ruby}
+\begin{lstlisting}[frame=single]
+for i in 0..255
+ tmp = prefix + i.to_s
+
+ if up?(tmp)
+  BruteForceTelnet.perform_async(tmp)
+  puts tmp
+ end
+end
+\end{lstlisting}
+On the corpus you will find 254 instead of the 255 presented here, this is the only modification that need to be done on all the corpus code. Indeed the 254 come from a previous code and the author forget to change it before submission of the code.\newline
+On the for loop all the possible adress of the subnetwork are tested with the ``up?'' method, this method will test if the device is existing in the network trying to ping it. If the device is present the ``BruteforceTelnet'' is called via ``perform\_async'' which come from the ``Sucker Punch'' \autocite{suckerpunch} gem and will run the ``run'' method of the ``BruteforceTelnet'' class asynchronously.
+
+\subsubsection{Bruteforce process}
+The class ``BruteforceTelnet'' will handle all the bruteforce process. Here the idea has been to be more occurate than the code of the actual botnets. Indeed the actual code of the botnets can be changed to be more efficient in the futur. That is why the author choosen to let the default check for a prompt from the library Net::Telnet \autocite{nettelnet} using the regular expression:
+\begin{Verbatim}[frame=single]
+/[$%#>] \z
+\end{Verbatim}
+The bruteforce will work in the same whay than in these malware, calling the method ``login'' from the library with the credentials and the library will wait for the prompt.
+\lstset{language=Ruby}
+\begin{lstlisting}[frame=single]
+tmp.each do |k, v|
+  begin
+   t = Net::Telnet::new(``Host'' => ip, ``Timeout'' => 1)
+   t.login(k, v){ |c| print c }
+   valid = 1
+   user = k
+   pass = v
+  rescue Net::ReadTimeout
+   valid = 0
+  end
+end
+\end{lstlisting}
+The tmp variable is an element of the bruteforce dictionary containing one login and one password. The author used a each to separate it in ``k'' and ``v'' (key/value) with ``k'' the login and ``v'' the password. If the library didn't receive the prompt (so the login failed) a Net::ReadTimeout exception is throw. That is why in this case the ``valid = 1'' is not used and instead the ``valid = 0'' is done. If the login worked (so the bruteforce worked) the login and password are saved in the ``user'' and ``pass'' variable and the ``valid'' variable is set to one and the loop will be ended (this is not visible is the code above).\newline
+The code as in the malware Mirai will first try to bruteforce on the port 23 and after if that didn't work will try on the port 2323.
 
 \chapter{Testing}
+In this chapter we will discuss how the different softwares has been tested and validated or not.
+\section{Real tests}
+
+\section{Proof of concept}
 
 \chapter{Conclusion and future work}
 This is the conclusion of this paper, we will need to do it at the end
