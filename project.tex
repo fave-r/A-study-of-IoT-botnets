@@ -50,6 +50,7 @@ will explain the structure here
 In order to present my study on the botnets acting on Internet of Things devices I will start explaining what is a botnet. A botnet is composed by a bot in charge of the infection using well knowed exploit for vulnerable machine. The bot may be capable of self-propagation that will make the infection grow very quickly. The difference with other malware is the usage of a command and control (C\&C) capacity. The bots are(may) always (be)connected to the C\&C, this ability permit to the master machine to control all the bots. For example the master can make distributed denial-of-service attack asking all his bots to make a lots of request on the same server in order to make the server unable to respond.
 
 \section{Internet of Things}
+\label{sec:preiot}
 You may think that you alreaddy know what Internet of Things is. Well that can be true, but to be sure that we will be talking of the same thing during the rest of the study this section will state what will be IoT meaning in the the rest of the study. Indeed in this paper we will use the definition of Angrishi, Kishore \autocite{angrishi2017turning} of IoT : ``these smart devices cannot be sen as specialized devices with intelligence built-in but rather as computers which does specialized jobs''. Using this definition can make things really different, and means that there no difference between a laptop and the CCTV camera in the supermarket.
 
 \chapter{Literature review}
@@ -395,7 +396,15 @@ Alternatively the Canary doesn't have any port open when scanned (figure \ref{fi
 
 \footnotetext{\fullcite{canary}}
 
+Testing all of these devices didn't show us what we where expecting. On the other hand that's a pretty good news, that means that all these ``personal'' devices are not vulnerable to this type of attack. ``personal'' because these type of devices are more likely to be used by individual users and not companies. As presented on the paper ``Hey, you keep away from my device'' \autocite{cao2017hey} the cameras that are more likely to be infected are ``old and low-end products which have no firmware update capability''. That being said, these type of cameras are the type used by a huge amount of companies because they can be purchased in large quantities and are inexpensives. In order to test this type of camera the author should have bought this type of camera in advance.
+
 \section{Proof of concept}
+In the absence of a real vulnerable device the idea has been to use a server.
+
+\subsection{Details}
+Has explained is the section \ref{sec:preiot} an IoT device (like a cctv camera) is more or less the same thing than a computer. So in representation of the device the author used a server, create a user using credentials in the Mirai dictionary and installed telnet.
+
+
 
 \chapter{Conclusion and future work}
 This is the conclusion of this paper, we will need to do it at the end
