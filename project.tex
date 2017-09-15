@@ -37,10 +37,13 @@
 This is the start of the paper I need to write it at the end
 
 \chapter*{Acknowledgements}
-I want to thank...
+I would like to express all my gratitude to a certain number of people.\newline
+To my supervisor Julio Hernandez-Castro for all advices you gave to me.\newline
+To Budi Arief for the help and all the device that could have been tested during all the project.\newline
+I would also like to thank all my familly and my girlfriend who stayed in my country and have helped and encouraged me.
 
 \chapter{Introduction}
-In our actual world we need in permanence control over a lot of things.The expansion of the IoT system permit to cover that need for us. All these new systems will create new possible target.
+In our actual world we need in permanence control over a lot of things. The expansion of the IoT system permit to cover that need for us. All these new systems will create new possible target.
 
 \section{Structure}
 will explain the structure here
@@ -242,7 +245,7 @@ The android application called Vulscan for vulnerability scanner will scan the W
 \end{figure}
 
 \subsubsection{Details}
-Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:mirai-dict}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork (. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
+Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:screen-act}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork (. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
 
 \subsubsection{Bruteforce process}
 For each device found in the subnetwork a Bruteforce process is started, this Buteforce process is represented by the asyncBruteForceTelnet class.\newline
@@ -402,12 +405,51 @@ Testing all of these devices didn't show us what we where expecting. On the othe
 In the absence of a real vulnerable device the idea has been to use a server.
 
 \subsection{Details}
-Has explained is the section \ref{sec:preiot} an IoT device (like a cctv camera) is more or less the same thing than a computer. So in representation of the device the author used a server, create a user using credentials in the Mirai dictionary and installed telnet.
+Has explained is the section \ref{sec:preiot} an IoT device (like a cctv camera) is more or less the same thing than a computer. So in representation of the device the author used a server, create a user using credentials in the Mirai dictionary and installed telnet. In order to test the Android application and the Ruby software the author put the ip of the server in the code. The modifications implied by this test are presented in the figure \ref{fig:mod-and} and \ref{fig:mod-ruby}. Those modifications are just here to add the IP of the server before the scan of the subnetwork. On the corpus you can find videos (screen capture) of this test showing the bruteforce process in the ``demonstration'' folder named : ``vulscan-android-test.mp4'' and ``vulscan-ruby-test.mp4''.
+\begin{figure}[h]
+ \caption{Modification in the code for the android application test}
+ \centering
+ \includegraphics[width=1.2\textwidth]{./img/exp/vulscan-android-test-modification}
+ \label{fig:mod-and}
+\end{figure}
+\begin{figure}[h]
+ \caption{Modification in the code for the Ruby application test}
+ \centering
+ \includegraphics[width=1.2\textwidth]{./img/exp/vulscan-ruby-test-modification}
+ \label{fig:mod-ruby}
+\end{figure}
+This test present the application actually bruteforcing the device. This is also showing that the two applications are in capacity to bruteforce those devices.
+\begin{figure}[h]
+ \caption{The android application showing the bruteforced server}
+ \centering
+ \includegraphics[width=0.8\textwidth]{./img/exp/screen-test-and}
+ \label{fig:test-and-serv}
+\end{figure}
+
+\begin{figure}[h]
+ \caption{The Ruby application showing the bruteforced server}
+ \centering
+ \includegraphics[width=1.2\textwidth]{./img/exp/screen-test-ruby}
+ \label{fig:test-ruby-serv}
+\end{figure}
+In the figures \ref{fig:test-and-serv} and \ref{fig:test-ruby-serv} you can see the results of this tests showing the server has been bruteforced with both devices. In the this test server was using the user ``service'' and the password ``service'' witch is one of the entry of the Mirai dictionary. But the both application have been tested with other server using different credentials. 
 
 
+\chapter{Conclusions}
+Now the IoT devices are pretty much everywhere and there is still some devices that are not enough secure. Fortunately the newer devices selled by huge brand for the lambda user appear to not be vulnerable to the vulnerabily of the already existing botnets. But thoses botnets worked because a lot af the vulnerable devices are on the market and used by a certain type users. Those devices represent a huge amount of computers, and because of that they have been used to make huge DDOS attacks. We will discuss here the validity of the work undertaken.\newline
+The tools have not been tested on ``real'' device vulnerable.\newline
+The three different tools are making a complete sort of ``suite'' of tools because they all permit to test with different aspects.\newline
+Those tools even if they have not been tested on real vulnerable device have a bruteforce system relatively the same than the malwares and have been tested on devices relatively closes to the vulnerables devices. That been said the author estimate at 98\% the chance that the tools to be actually working tools on real manufactured device.
 
-\chapter{Conclusion and future work}
-This is the conclusion of this paper, we will need to do it at the end
+
+\chapter{Futur work}
+Even considering the tools at actually tested working tools there is area on the IoT botnets world that are worth investing time for other research. Here is a list of domains found during the realisation of this project:
+\begin{itemize}
+ \item Implementing a graphical user interface on the Ruby vulscan application to make this tool usable by novice users.
+ \item This research is true nowadays, but will need to be up to date in the early future because new botnets may appear.
+ \item In this project the dictionary used by Mirai and Bashlite malware is used, it may be interesting to find the dictionary used by other botnets and compare with the actual ones. 
+\end{itemize}
+The actual code could be a good base to implement new futur botnets approach that may be launched.
 
 \printbibliography
 
