@@ -72,8 +72,8 @@ In the next section we will explain how Mirai one of the most important IoT Botn
 \section{Mirai}
 I couldn't start this study without talking about Mirai. Mirai is an IoT botnet, but the most interesting thing about Mirai is that the source code of this botnet is now open source. At its peak, Mirai infected 4000 IoT devices
 per hour and currently it is estimated to have little more than half a million infected active IoT devices \autocite{angrishi2017turning}. Mirai botnet gain a certain amount of notoriety with the deny of service attack on October 21st 2016. This attack was a new steps in the distributed deny of service world with the new record of 1.1To/s against Dyn Managed DNS. Targeting this service makes a huge part of the internet became inaccessible (Amazon.com, BBC, Paypal, Airbnb, Visa, etc.) because Dyn DSN was not able to respond anymore.\newline
-Putting the sources of this botnet open source generated two things. The first one, which is pretty nice is that a lot of research can be done with the code source analysis. However, the problem is even if Anna-Senpai is not acting anymore (this is the pseudo used by the Mirai creator) the open source code has been used by a huge amount of script kiddies or by more professional author that will modify the code to be more powerful and more secure. Since the code is open source pretty much all the recent attacks made on IoT used the same approach as Mirai : telnet bruteforce.
-One evolution of Mirai was Linux/IRCTelnet which also use telnet bruteforce and the same dictionary as Mirai to infiltrate the device.\newline
+Putting the sources of this botnet open source generated two things. The first one, which is pretty nice is that a lot of research can be done with the code source analysis. However, the problem is even if Anna-Senpai is not acting anymore (this is the pseudo used by the Mirai creator) the open source code has been used by a huge amount of script kiddies or by more professional author that will modify the code to be more powerful and more secure. Since the code is open source pretty much all the recent attacks made on IoT used the same approach as Mirai : telnet brute-force.
+One evolution of Mirai was Linux/IRCTelnet which also use telnet brute-force and the same dictionary as Mirai to infiltrate the device.\newline
 \newline
 Mirai is designed in such way that any infected device try to infect any other device around him. Mirai is also designed in that the scan for new device that can be infected is always active. This permit to spread the infection very quickly. Also, if a device infected is factory resets most likely this device will be infected very quickly because their neighbours are scanning. Mirai was the big step in the IoT botnets world.\newline
 \newline
@@ -130,7 +130,7 @@ The common thing with all these botnet is that they operate on device using Busy
  \includegraphics[width=1.2\textwidth]{./img/mirai-dict}
  \label{fig:mirai-dict}
 \end{figure}
-As you can see in the figure \ref{fig:mirai-dict} the dictionary use very simple combination of username/password to bruteforce the telnet connection.
+As you can see in the figure \ref{fig:mirai-dict} the dictionary use very simple combination of username/password to brute-force the telnet connection.
 
 \subsection{Other vulnerabilities}
 Here his an analysis of the others major botnets and the vulnerabilities they are using.
@@ -144,31 +144,31 @@ Here his an analysis of the others major botnets and the vulnerabilities they ar
 \subsection{Conclusions}
 This overview of the IoT botnet vulnerability usage show multiple things:
 \begin{enumerate}
- \item Telnet bruteforce is the most common vulnerability used by the majority of the botnets.
+ \item Telnet brute-force is the most common vulnerability used by the majority of the botnets.
  \item In order to make a botnet you need to find some vulnerability that is common of the majority of the IoT devices.
  \item A huge majority of the IoT devices are based on a Linux variant.
 \end{enumerate}
-Telnet is the most used vulnerability because it is the vulnerability that is present on the most devices. In the next section the bruteforce process used in the Mirai and bashlite source code will be analyzed.
+Telnet is the most used vulnerability because it is the vulnerability that is present on the most devices. In the next section the brute-force process used in the Mirai and bashlite source code will be analyzed.
 
-\section{Analysing the bruteforce process of Malwares}
-In order to make the bruteforce process the most efficient and equivalent to the one the malwares implements we need to understand how the bruteforce process is done on the malwares.
+\section{Analysing the brute-force process of Malwares}
+In order to make the brute-force process the most efficient and equivalent to the one the malwares implements we need to understand how the brute-force process is done on the malwares.
 \begin{sidewaysfigure}[h]
- \caption{Bruteforce process in the bashlite malware}
+ \caption{brute-force process in the bashlite malware}
  \includegraphics[width=1.2\textwidth]{./img/bashlite-bruteforce}
  \label{fig:bashlite-brute}
 \end{sidewaysfigure}
-As you can see in the figure \ref{fig:bashlite-brute} the bruteforce process work this way :
+As you can see in the figure \ref{fig:bashlite-brute} the brute-force process work this way:
 \begin{itemize}
 \item There is an infinite loop with a switch case.
 
 \item Depending the state the program will read the letters until a certain word.
 
-\item If there is the letters "ncorrect" that means the server reply that the credentials are incorrects the client restart the loop with the state 0.
+\item If there are the letters "ncorrect" that means the server reply that the credentials are incorrect the client restart the loop with the state 0.
 
-\item If there is the letters "assword" that means the server is expecting the password to be entered so that set the state 5 which will send the password associated with the login used.
+\item If there are the letters "assword" that means the server is expecting the password to be entered so that set the state five which will send the password associated with the login used.
 \end{itemize}
 
-The Mirai malware work on the same way and had also a state system. After the state were the malware enter the password it enter on the state called ``SC\_WAITING\_PASSWD\_RESP''. In this state it will use the fonction called ``consume\_any\_prompt'' (figure \ref{fig:mirai-prompt}) to know if the the device has been bruteforced or not.
+The Mirai malware work on the same way and had also a state system. After the state where the malware enter the password, it enters on the state called ``SC\_WAITING\_PASSWD\_RESP''. In this state, it will use the function called ``consume\_any\_prompt'' (figure \ref{fig:mirai-prompt}) to know if the device has been brute-forced or not.
 
 \begin{sidewaysfigure}[h]
   \caption{Mirai source code : ``consume\_any\_prompt'' fonction}
@@ -176,33 +176,34 @@ The Mirai malware work on the same way and had also a state system. After the st
  \includegraphics[width=1.2\textwidth]{./img/mirai-prompt}
  \label{fig:mirai-prompt}
 \end{sidewaysfigure}
-That means that the prompt need to contain at least 2 characters in this list : ``':', '>', '\$', '\#', '\%''' in all the other case that will not be considered as a prompt and the process will think that the authentification failed.\newline
-In the next chapter, all the reflexion process (methodology) used during all the evolution of the project will be covered.
+That means that the prompt need to contain at least two characters in this list: ``':', '>', '\$', '\#', '\%''' in all the other case that will not be considered a prompt and the process will think that the authentication failed.\newline
+In the next chapter, all the reflection process (methodology) used during all the evolution of the project will be covered.
+
 \chapter{Methodology}
 \section{Analysis and choices}
 As presented during the vulnerability analysis section \ref{sec:vulnerabilities}, the choice made by the majority of the IoT hackers botnet creator is to use telnet to access the device. \newline
-The first choice during the evolution of the project has been to focus on the botnets that are bruteforcing the telnet connection because this is the majority of the botnets.
-This is the most important security breach in the IoT devices, the mean of communication and the most used in the IoT botnets is : telnet. The Goal of this project is to be able to detect a vulnerable device.\newline
-The next section will cover the evolution of the project in depth.
+The first choice during the evolution of the project has been to focus on the botnets that are brute-forcing the telnet connection because this is the majority of the botnets.
+This is the most important security breach in the IoT devices, the mean of communication and the most used in the IoT botnets is: telnet. The Goal of this project is to be able to detect a vulnerable device.\newline
+The next section will cover the evolution of the project in-depth.
 
 \section{Evolution}
-At the start of the project the first thing has been to analyse the source code of the Mirai botnet. Indeed because the source code is now open source looking the source code permit to understand how a botnet malware actually work. This step give us a lot of informations like the port that is used by the malware to communicate with the master.\newline
-Having this information the first idea has been to create a web application that scan a device and with the knowledge of the existing botnets it will give the result to know if this device is possibly infected or not.\newline
-After this first achievement the other idea has been to be more accessible to a novice user. Inded with the previous usage this was a bit difficult to analyse your home or other place.\newline
-That's why the new idea was to use a mobile device, in this case a mobile phone and use the same steps seen in the Mirai source code to see in our connected wifi if some device are vulnerable to this type of attack.\newline
-The problem with this one was that the informations that we could gather with an Android device wasn't enought if we have very similar device to find which device is which. The idea was to use nmap to gather information of the target operating system. In that case that can only be done on a rooted android device. That's why the new idea as been to make the project working on computer, so the new idea is a Ruby application. The new advantage of this project is that he scan the subnetwork either on wifi or wired.\newline
+At the start of the project the first thing has been to analyze the source code of the Mirai botnet. Indeed, because the source code is now open source reading the source code permit to understand how a botnet malware actually work. This steps give us a lot of information like the port that is used by the malware to communicate with the master.\newline
+Having this information the first idea has been to create a web application that scan a device. With the knowledge of the existing botnets, it will give the result to know if this device is possibly infected or not.\newline
+After this first achievement, the other idea has been to be more accessible to a novice user. Indeed, with the previous usage this was a bit difficult to analyse your home or other place.\newline
+That is why the new idea was to use a mobile device, in this case a mobile phone. The project will use the same steps seen in the Mirai source code to see in the connected wifi if some devices are vulnerable to this type of attack.\newline
+The problem with this one was that the information that we could gather with an Android device wasn't enough if we have very similar device to find which device is which. The idea was to use nmap to gather information of the target operating system. In that case that can only be done on a rooted android device. That is why the new idea has been to make the project working on computer, so the new idea is a Ruby application. The new advantage of this project is that he scan the subnetwork either on wifi or wired.\newline
 We will present the different projects in the next chapter.
 
 \chapter{Project}
-This project in order to be able to detect the most number of vulnerable device possible is devided in three different parts. A website, an Android application and a computer ruby application. The first section will cover the Web application.
+This project in order to be able to detect the most numbers of vulnerable device possible is divided in three different parts. A website, an Android application and a computer ruby application. The first section will cover the Web application.
 \section{Web}
-The choice of a web application has ben made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application thats can be accessed with the url : \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
+The choice of a web application has been made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application that can be accessed with the url: \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
 
 \subsection{Addressed problems}
-The main goal of the wed application is to quickly know if an IoT (or not) device is infected by a Mirai variant or isn't secure enought and the security need to be checked. This application will propose the result with only an IP given as parameter.
+The main goal of the wed application is to quickly know if an IoT (or not) device is infected by a Mirai variant or isn't secure enough and the security need to be checked. This application will propose the result with only an IP given as parameter.
 
 \subsection{General informations}
-The project has been done using the Ruby on Rails framework which is a web framework for the Ruby language. The framework permit overcome a lot of time wasting thanks to a lot of common needs  already implemented in the framework. The framework is based on the Model-View-Controller design pattern. That means that there is two principal class Controller and Model : Controlleur with the logic and Model corresponding to the data. In this project the only model used is the scan class, technically this model correspond to the database table ``scan'' that will log each scan. The most of the code is contained on the show method of the ScansController class.
+The project has been done using the Ruby on Rails framework, which is a web framework for the Ruby language. The framework permits overcome a lot of time wasting thanks to a lot of common needs  already implemented in the framework. The framework is based on the Model-View-Controller design pattern. That means that there are two principal class Controller and Model: Controller with the logic and Model corresponding to the data. In this project the only model used is the scan class, technically this model correspond to the database table ``scan'' that will log each scan. Most of the code is contained on the show method of the ScansController class.
 
 \subsection{Interface}
 \begin{figure}[h]
@@ -211,46 +212,46 @@ The project has been done using the Ruby on Rails framework which is a web frame
  \includegraphics[width=1.3\textwidth]{./img/vulweb-result}
  \label{fig:screen-act}
 \end{figure}
-The interface has been done as simple as possible, using the bootsrap library \autocite{bootstrap} which is an open source toolkit that help building the front part of a website providing a responsive grid system.
+The interface has been done as simple as possible, using the bootsrap library\autocite{bootstrap}, which is an open source toolkit that help building the front part of a website providing a responsive grid system.
 
 \subsection{Explanations}
 The application will make a nmap scan for some ports.
 \begin{itemize}
- \item 22 This is the ssh port which is more secure than telnet
- \item 23 This is the telnet port
- \item 2323 This is a port found on Mirai source code, and sometime used as alternate port for telnet
- \item 48101 This is a port used by Mirai to dialog with the C\&C server
+ \item 22 This is the ssh port, which is more secure than telnet.
+ \item 23 This is the telnet port.
+ \item 2323 This is a port found on Mirai source code, and sometime used as alternate port for telnet.
+ \item 48101 This is a port used by Mirai to dialog with the C\&C server.
 \end{itemize}
-Each call for an IP scan is saved on a postgresql database in order to permit futur statistics on the scans. Whith the knowledge of the Mirai botnet, and the analysis of the state of the ports the different response that can be given by the web application are:
+Each call for an IP scan is saved on a postgresql database in order to permit future statistics on the scans. With the knowledge of the Mirai botnet, and the analysis of the state of the ports the different response that can be given by the web application are:
 \begin{itemize}
 \item 23 port open\newline
-  Warning : Telnet port is open be carefull not to use a default password (prefer ssh)
+  Warning: Telnet port is open be careful not to use a default password (prefer ssh)
 \item 23 port filtered\newline
   Warning
 \item 2323 port open\newline
-  Warning : Telnet "other" port is open be carefull not to use it as telnet specially with default password (prefer ssh)
+  Warning: Telnet "other" port is open be careful not to use it as telnet specially with default password (prefer ssh)
 \item 2323 port filtered\newline
-  Warning : Telnet "other" port is filtered (so we don't know) be carefull not to use it as telnet specially with default password (prefer ssh)
+  Warning: Telnet "other" port is filtered (so we don't know) be careful not to use it as telnet specially with default password (prefer ssh)
 \item 48101 port open and 23, 22, 80 ports closed\newline
-  Danger : Mirai certainly present on this device !!
-\item 48101 port filtered and and 23, 22, 80 ports closed\newline
-  Warning : Mirai may be present on this device
+  Danger: Mirai certainly present on this device !!
+\item 48101 port filtered and 23, 22, 80 ports closed\newline
+  Warning: Mirai may be present on this device
 \end{itemize}
-This can be explained because of the fonctionement of Mirai which has been the most dangerous botnet for now. Indeed the malware will kill the telnet, ssh and http services once it start on the device. This means that if we find the port used by Mirai to comunicate with the master open,  with telnet, ssh and http closed that there is a huge possibility that Mirai is active on this device.\newline
+This can be explained because of how Mirai works which has been the most dangerous botnet for now. Indeed, the malware will kill the telnet, ssh and http services once it starts on the device. This means that if we find the port used by Mirai to communicate with the master open,  with telnet, ssh and http closed that there is a huge possibility that Mirai is active on this device.\newline
 The next section will cover the mobile application.
 \section{Mobile}
-A mobile aplication became something really important now. The choice of this technology permit to use a mobile device and scan for a vulnerable device easily.
+A mobile application became something really important now. The choice of this technology permits to use a mobile device and scan for a vulnerable device easily.
 
 \subsection{Android}
-Android is not the only one, but it's the one that is well represented and were you can program on any operating system. Because of that Android has been the choosen to be the mobile platform of this project.
+Android is not the only one, but it's the one that is well represented and where you can program on any operating system. Because of that Android has been the chosen to be the mobile platform of this project.
 
 \subsection{Language, Development and version control}
 Because of Android the language used on this mobile application is Java. Even if Android provide a support for C++ language using C++ for this application can be a bit overkill and more difficult because there is less library for C++ on Android than with Java.\newline
-The application source code that can be found on the Corpus on the vulscan-android folder has been developed on Android studio which is the IDE provided by Google.\newline
-During all the project the source code has been versioned using git on Github platform.
+The application source code that can be found on the Corpus on the vulscan-android folder has been developed on Android studio, which is the IDE provided by Google.\newline
+During all the project we used a Version control git on Github platform for the source code.
 
 \subsection{Explanation and interface}
-The android application called Vulscan for vulnerability scanner will scan the Wifi where the device is connected to find devices that are vulnerable to Mirai and alternative botnets using exactly the same bruteforce approach that the code of the malware. If a device is vulnerable (the login and password association is in the dictionary used) it will be displayed in red, if not it will be displayed in green.
+The android application called Vulscan for vulnerability scanner will scan the Wifi where the device is connected to find devices that are vulnerable to Mirai and alternative botnets using exactly the same brute-force approach that the code of the malware. If a device is vulnerable (the login and password association is in the dictionary used) it will be displayed in red. On the other hand, if not it will be displayed in green.
 \begin{figure}[h]
  \caption{Screenshot of the application}
  \centering
@@ -259,10 +260,10 @@ The android application called Vulscan for vulnerability scanner will scan the W
 \end{figure}
 
 \subsection{Details}
-Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:screen-act}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork (. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
+Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:screen-act}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork (. If the device gets a response a background brute-force task is created. A brute-force process can take a long time that is why each time a device is found a new background task is created so all brute-force are done in parallel using asynchronous tasks.
 
-\subsection{Bruteforce process}
-For each device found in the subnetwork a Bruteforce process is started, this Buteforce process is represented by the asyncBruteForceTelnet class.\newline
+\subsection{brute-force process}
+For each device found in the subnetwork a brute-force process is started, this brute-force process is represented by the asyncBruteForceTelnet class.\newline
 Code on the scan process:
 \lstset{language=Java}
 \begin{lstlisting}[frame=single]
@@ -271,26 +272,26 @@ myact, values[0]);
 
 bf.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 \end{lstlisting}
-bf is the variable that contain the object of the type asyncBruteForceTelnet which is the class representing the bruteforce process. The bruteforce process is run with ``executeOnExecutor(AsyncTask.THREAD\_POOL\_EXECUTOR);'' so all the bruteforce process are run in parallel. Indeed a bruteforce is a long going task so it need to be done in background and simultaneously to not freeze the device.\newline
-The asyncBruteForceTelnet class extend the class AsyncTask that means that this class will be run in background. The dictionnary used to try to bruteforce the devices is a combination of the Mirai and the Bashlite dictionary and is stored in a unmodifiable class variable list to use the less memory possible.\newline
-The language used is Java, so to handle the the telnet process the library ``org.apache.commons.net.telnet.TelnetClient'' is used. This library permit to establish a connection socket, but in order to create our bruteforce process and be the really close to the process used by the botnets we need to have a code relatively close to the botnet code. That's why the ``public boolean checkConnected()'' method in the asyncBruteForceTelnet class use exactly the same characters than the Mirai source code (figure \ref{fig:mirai-prompt}) to identify if we're now login into the device:
+bf is the variable that contain the object of the type asyncBruteForceTelnet, which is the class representing the brute-force process. The brute-force process is run with ``executeOnExecutor(AsyncTask.THREAD\_POOL\_EXECUTOR);'' so all the brute-force process are run in parallel. Indeed, a brute-force is a long going task so it needs to be done in background and simultaneously to not freeze the device.\newline
+The asyncBruteForceTelnet class extend the class AsyncTask that means that this class will be running in background. The dictionary used to try to brute-force the devices is a combination of the Mirai and the Bashlite dictionary and is stored in an ``unmodifiable'' class variable list (this means the variable will be constant) to use the less memory possible.\newline
+The language used is Java, so to handle the telnet process the library ``org.apache.commons.net.telnet.TelnetClient'' is used. This library permits to establish a connection socket, but in order to create our brute-force process and be the really close to the process used by the botnets we need to have a code relatively close to the botnet code. That's why the ``public boolean checkConnected()'' method in the asyncBruteForceTelnet class use exactly the same characters as the Mirai source code (figure \ref{fig:mirai-prompt}) to identify if we're now login into the device:
 \begin{figure}[h]
  \caption{checkConnected method from asyncBruteForceTelnet (corpus)}
  \centering
  \includegraphics[width=1\textwidth]{./img/checkconnected-apk}
  \label{fig:checkconnected}
 \end{figure}
-The code as in the malware Mirai will first try to bruteforce on the port 23 and after if that didn't work will try on the port 2323.\newline
-The aplication has been made to send enought informations to the final user, but beeing the most efficient possible because it will run on a mobile device possibly not with a huge amount of RAM and a recent processor.\newline
+The code as in the malware Mirai will first try to brute-force on the port 23 and after if that didn't work will try on the port 2323.\newline
+The application has been made to send enough information to the final user, but being the most efficient possible because it will run on a mobile device possibly not with a huge amount of RAM and a recent processor.\newline
 In the next section we will cover the computer version of the project.
 
 \section{Computer}
-In order to analyse more devices and to gather more informations on the scanned devices:
+In order to analyze more devices and to gather more information on the scanned devices:
 \begin{itemize}
  \item Operating system of the scanned device
  \item Launch a scan on a cabled network
 \end{itemize}
-The idea has been to make the same type of aplication (Vulscan mobile) on a computer.
+The idea has been to make the same type of application (Vulscan mobile) on a computer.
 
 \subsection{Language, Development and version control}
 The idea was to make a cross-platform application, in order to do that an interpreted language has been used, in this case Ruby.
@@ -301,7 +302,7 @@ During all the project the source code has been versioned using git on Github pl
 The application has been developped in order to be very modular and respecting the standard good practices. In order to do that the code is separated in multiple class whith each one a very specific role. In order to launch a scan a script has been added to the code ``script.rb''.\newline
 The code use some external libraries to perfom some actions:
 \begin{itemize}
- \item Sucker Punch \autocite{suckerpunch}: This is an asynchronous processing library (make the bruteforce process running background)
+ \item Sucker Punch \autocite{suckerpunch}: This is an asynchronous processing library (make the brute-force process running background)
  \item Net::Telnet \autocite{nettelnet}: Provides telnet functionality
  \item ARPScan \autocite{arpscan}: This is a wrapper for the arp-scan executable that help to recover MAC adresses
  \item net-ping \autocite{netping}: Easier way to ping devices
@@ -330,10 +331,10 @@ Another difference with the Android software is that the Ruby application will u
 \end{sidewaysfigure}
 
 \subsection{Interface}
-This software is more dedicated to an advertised public, indeed there is no graphical user interface the only way to interact and receive the results from the software is from console. But the software has been done in the way that no configuration or needs from the user (other than press ctrl+c to exit) is needed. When a bruteforce is on going the results are printed on the console, so the user can know all the login/passwords tested and the valid credentials if the device is bruteforced.
+This software is more dedicated to an advertised public, indeed there is no graphical user interface the only way to interact and receive the results from the software is from console. But the software has been done in the way that no configuration or needs from the user (other than press ctrl+c to exit) is needed. When a brute-force is on going the results are printed on the console, so the user can know all the login/passwords tested and the valid credentials if the device is brute-forced.
 
 \subsection{Details}
-In order to launch a scan the method ``sniff'' from an object of type ``NetworkSniff'' need to be called. Indeed that will launch a scan and all the process will be running. This method will run and ping all the possible device on the subnetwork and each time one device is found a bruteforce process will be run in background thanks to the gem ``Sucker Punch'' \autocite{suckerpunch}:
+In order to launch a scan the method ``sniff'' from an object of type ``NetworkSniff'' need to be called. Indeed that will launch a scan and all the process will be running. This method will run and ping all the possible device on the subnetwork and each time one device is found a brute-force process will be run in background thanks to the gem ``Sucker Punch'' \autocite{suckerpunch}:
 
 \lstset{language=Ruby}
 \begin{lstlisting}[frame=single]
@@ -349,12 +350,12 @@ end
 On the corpus you will find 254 instead of the 255 presented here, this is the only modification that need to be done on all the corpus code. Indeed the 254 come from a previous code and the author forget to change it before submission of the code.\newline
 On the for loop all the possible adress of the subnetwork are tested with the ``up?'' method, this method will test if the device is existing in the network trying to ping it. If the device is present the ``BruteforceTelnet'' is called via ``perform\_async'' which come from the ``Sucker Punch'' \autocite{suckerpunch} gem and will run the ``run'' method of the ``BruteforceTelnet'' class asynchronously.
 
-\subsubsection{Bruteforce process}
-The class ``BruteforceTelnet'' will handle all the bruteforce process. Here the idea has been to be more occurate than the code of the actual botnets. Indeed the actual code of the botnets can be changed to be more efficient in the futur. That is why the author choosen to let the default check for a prompt from the library Net::Telnet \autocite{nettelnet} using the regular expression:
+\subsubsection{Brute-force process}
+The class ``BruteforceTelnet'' will handle all the brute-force process. Here the idea has been to be more occurate than the code of the actual botnets. Indeed the actual code of the botnets can be changed to be more efficient in the futur. That is why the author choosen to let the default check for a prompt from the library Net::Telnet \autocite{nettelnet} using the regular expression:
 \begin{Verbatim}[frame=single]
 /[$%#>] \z
 \end{Verbatim}
-The bruteforce will work in the same whay than in these malware, calling the method ``login'' from the library with the credentials and the library will wait for the prompt.
+The brute-force will work in the same whay than in these malware, calling the method ``login'' from the library with the credentials and the library will wait for the prompt.
 \lstset{language=Ruby}
 \begin{lstlisting}[frame=single]
 tmp.each do |k, v|
@@ -369,8 +370,8 @@ tmp.each do |k, v|
   end
 end
 \end{lstlisting}
-The tmp variable is an element of the bruteforce dictionary containing one login and one password. The author used a each to separate it in ``k'' and ``v'' (key/value) with ``k'' the login and ``v'' the password. If the library didn't receive the prompt (so the login failed) a Net::ReadTimeout exception is throw. That is why in this case the ``valid = 1'' is not used and instead the ``valid = 0'' is done. If the login worked (so the bruteforce worked) the login and password are saved in the ``user'' and ``pass'' variable and the ``valid'' variable is set to one and the loop will be ended (this is not visible is the code above).\newline
-The code as in the malware Mirai will first try to bruteforce on the port 23 and after if that didn't work will try on the port 2323.\newline
+The tmp variable is an element of the brute-force dictionary containing one login and one password. The author used a each to separate it in ``k'' and ``v'' (key/value) with ``k'' the login and ``v'' the password. If the library didn't receive the prompt (so the login failed) a Net::ReadTimeout exception is throw. That is why in this case the ``valid = 1'' is not used and instead the ``valid = 0'' is done. If the login worked (so the brute-force worked) the login and password are saved in the ``user'' and ``pass'' variable and the ``valid'' variable is set to one and the loop will be ended (this is not visible is the code above).\newline
+The code as in the malware Mirai will first try to brute-force on the port 23 and after if that didn't work will try on the port 2323.\newline
 \newline
 We now have covered all the three different projects, in the next chapter we will cover how they have been tested.
 
@@ -424,7 +425,7 @@ In the next section we will explain how those project have been tested without a
 In the absence of a real vulnerable device the idea has been to use a server.
 
 \subsection{Details}
-Has explained is the section \ref{sec:preiot} an IoT device (like a cctv camera) is more or less the same thing than a computer. So in representation of the device the author used a server, create a user using credentials in the Mirai dictionary and installed telnet. In order to test the Android application and the Ruby software the author put the ip of the server in the code. The modifications implied by this test are presented in the figure \ref{fig:mod-and} and \ref{fig:mod-ruby}. Those modifications are just here to add the IP of the server before the scan of the subnetwork. On the corpus you can find videos (screen capture) of this test showing the bruteforce process in the ``demonstration'' folder named : ``vulscan-android-test.mp4'' and ``vulscan-ruby-test.mp4''.
+Has explained is the section \ref{sec:preiot} an IoT device (like a cctv camera) is more or less the same thing than a computer. So in representation of the device the author used a server, create a user using credentials in the Mirai dictionary and installed telnet. In order to test the Android application and the Ruby software the author put the ip of the server in the code. The modifications implied by this test are presented in the figure \ref{fig:mod-and} and \ref{fig:mod-ruby}. Those modifications are just here to add the IP of the server before the scan of the subnetwork. On the corpus you can find videos (screen capture) of this test showing the brute-force process in the ``demonstration'' folder named : ``vulscan-android-test.mp4'' and ``vulscan-ruby-test.mp4''.
 \begin{figure}[h]
  \caption{Modification in the code for the android application test}
  \centering
@@ -437,28 +438,28 @@ Has explained is the section \ref{sec:preiot} an IoT device (like a cctv camera)
  \includegraphics[width=1.2\textwidth]{./img/exp/vulscan-ruby-test-modification}
  \label{fig:mod-ruby}
 \end{figure}
-This test present the application actually bruteforcing the device. This is also showing that the two applications are in capacity to bruteforce those devices.
+This test present the application actually bruteforcing the device. This is also showing that the two applications are in capacity to brute-force those devices.
 \begin{figure}[h]
- \caption{The android application showing the bruteforced server}
+ \caption{The android application showing the brute-forced server}
  \centering
  \includegraphics[width=0.8\textwidth]{./img/exp/screen-test-and}
  \label{fig:test-and-serv}
 \end{figure}
 
 \begin{figure}[h]
- \caption{The Ruby application showing the bruteforced server}
+ \caption{The Ruby application showing the brute-forced server}
  \centering
  \includegraphics[width=1.2\textwidth]{./img/exp/screen-test-ruby}
  \label{fig:test-ruby-serv}
 \end{figure}
-In the figures \ref{fig:test-and-serv} and \ref{fig:test-ruby-serv} you can see the results of this tests showing the server has been bruteforced with both devices. In the this test server was using the user ``service'' and the password ``service'' witch is one of the entry of the Mirai dictionary. But the both application have been tested with other servera using different credentials.\newline
+In the figures \ref{fig:test-and-serv} and \ref{fig:test-ruby-serv} you can see the results of this tests showing the server has been brute-forced with both devices. In the this test server was using the user ``service'' and the password ``service'' witch is one of the entry of the Mirai dictionary. But the both application have been tested with other servera using different credentials.\newline
 The next chapter will details all the conclusions we can have and will try to analyse the work undertaken.
 
 \chapter{Conclusions}
 Now the IoT devices are pretty much everywhere and there is still some devices that are not enough secure. Fortunately the newer devices selled by huge brand for the lambda user appear to not be vulnerable to the vulnerabily of the already existing botnets. But thoses botnets worked because a lot af the vulnerable devices are on the market and used by a certain type users. Those devices represent a huge amount of computers, and because of that they have been used to make huge DDOS attacks. We will discuss here the validity of the work undertaken.\newline
 The tools have not been tested on ``real'' device vulnerable.\newline
 The three different tools are making a complete sort of ``suite'' of tools because they all permit to test with different aspects.\newline
-Those tools even if they have not been tested on real vulnerable device have a bruteforce system relatively the same than the malwares and have been tested on devices relatively closes to the vulnerables devices. That been said the author estimate at 98\% the chance that the tools to be actually working tools on real manufactured device.\newline
+Those tools even if they have not been tested on real vulnerable device have a brute-force system relatively the same than the malwares and have been tested on devices relatively closes to the vulnerables devices. That been said the author estimate at 98\% the chance that the tools to be actually working tools on real manufactured device.\newline
 The next chapter will analyse the futur work that can be done after this project.
 
 \chapter{Future work}
