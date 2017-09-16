@@ -90,25 +90,25 @@ The next chapter will outline the purposes of this project.
 
 
 \chapter{Problem Description}
-The focus of this paper is the new approach of the hackers focusing on the IoT systems. When looking IoT devices as computers that permit to understand some problems. Normaly now when someone use a computer, this is comon to have some antivirus on it or to do some practices to protect it. But is this common to do it on a watch ? a fridge ? or on a brand new bulb ? These Computers are less protected and this remain a huge issues for IoT devices \autocite{yang2017survey}. Because these things can more or less do the same things than ``normal'' computer. We will focus on the usage of the IoT devices on botnets by hackers. We will manage to find when a device is potentially infected by a botnet. The importance may not be obvious because who cares if your watch is part of a botnet that don't stop it to work. However these botnets are usualy used to make huge deny of service attacks \autocite{hallman2017ioddos}. Knowing that potentially some of our devices are insecure will permit us to change the security of our devices to prevent themself to feed some botnet.\newline
-The in depth analysis of the Mirai and Bashlite malware will be covered in the next chapter.
+The focus of this paper is the new approach of the hackers focusing on the IoT systems. When looking IoT devices as computers that permit to understand some problems. Normally now when someone uses a computer, this is common to have some antivirus on it or to do some practices to protect it. However, is this common to do it on a watch ? A fridge ? Or on a brand new bulb ? These Computers are less protected and this remains a huge issues for IoT devices \autocite{yang2017survey}. These things can more or less do the same things as ``normal'' computer. We will focus on the usage of the IoT devices on botnets by hackers. We will manage to find when a device can potentially be infected by a botnet. The importance may not be obvious because who cares if your watch is part of a botnet that does not stop it to work. However, these botnets are usually used to make huge deny of service attacks \autocite{hallman2017ioddos}. Knowing that potentially some of our devices are not secured will permit us to change the security of our devices to prevent themselves to feed some botnet.\newline
+The in-depth analysis of the Mirai and Bashlite malware will be covered in the next chapter.
 
 \chapter{Requirements Analysis}
-In order to be able to start a project that will help to detect an infected device we need to have a look at different existing botnets malware.
+In order to be able to start a project that will help detect an infected device we need to have a look at different existing botnets malware.
 
 \section{C\&C connection}
-A device infected by a botnet will need to be monitored by his C\&C server in some way. The malware will need to setup a small server that will monitor a port in order to receive the orders from the master machine. Knowing the ports used by a botnet and the form of the packet going from the C\&C to the machine can permit to catch an infected device. Indeed knowing this information can permit to make a monitoring device that will throw some alerts in case of weird detection.\newline
-In order to do this the analysis of the Mirai source code give the information that the bot will expect incoming data from the C\&C server on the port : 48101.
-But trying to analyse the only one pcap file (capture of packets) available online didn't give any information about the transmited packets.
-Analsing the code of the other one big IoT botnet Bashlite, did not give us more information, the bot is not listening on any ports but will be gathering new information on the C\&C periodicaly using by default the 6667 port.\newline
+A device infected by a botnet will need to be monitored by his C\&C server in some way. The malware will need to set up a small server that will monitor a port in order to receive the orders from the master machine. Knowing the ports used by a botnet and the form of the packet going from the C\&C to the machine can permit to catch an infected device. Indeed, knowing this information can permit to make a monitoring device that will throw some alerts in case of weird detection.\newline
+In order to do this the analysis of the Mirai source code give the information that the bot will expect incoming data from the C\&C server on the port: 48101.
+However, trying to analyze the only one pcap file (capture of packets) available online did not give any information about the transmitted packets.
+Analazing the code of the other one big IoT botnet Bashlite, did not give us more information, the bot is not listening on any ports, but will be gathering new information on the C\&C periodically using by default the 6667 port.\newline
 In the next section we will cover all the vulnerabilities used in the various existing IoT botnets.
 
 \section{Vulnerabilities}
 \label{sec:vulnerabilities}
-To investigate the major vulnerabilities this need to analyse some of the existing botnets.
+To investigate the major vulnerabilities this need to analyze some of the existing botnets.
 
 \subsection{Telnet}
-Telnet is a pretty old protocol \autocite{davidson1977arpanet} however this protocol is way more simple to implement than ssh. This is why this protocol as been choosen in the vast majority of the IoT devices. Looking on the history of the IoT botnet telnet has been choosen as the number one vulnerability of the devices:
+Telnet is a pretty old protocol \autocite{davidson1977arpanet}, however, this protocol is way more simple to implement than ssh. This is why this protocol has been chose in the vast majority of the IoT devices. Looking on the history of the IoT botnet telnet has been chose as the number one vulnerability of the devices:
 
 \begin{itemize}
  \item Psyb0t \autocite{durfina2013psybot}
@@ -122,18 +122,18 @@ Telnet is a pretty old protocol \autocite{davidson1977arpanet} however this prot
  \item Linux/IRCTelnet (new Aidra) \autocite{irctelnet}
 \end{itemize}
 
-All this existing botnets are based on the telnet vulnerability. They are bruteforcing the default user/password combination set by the manufacturer. Indeed based on the Carna botnet \autocite{carna} stats, even with a small dictionary a botnet can achieve a huge number of devices : ``in one day our binary was deployed to around one hundred thousand devices''.
-The comon thing with all these botnet is that they operate on device using BusyBox with default easy password, and this is going to take some time before manufactrer start to take this into consideration.\newline
+All those existing botnets are based on the telnet vulnerability. They are bruteforcing the default user/password combination set by the manufacturer. Indeed, based on the Carna botnet \autocite{carna} stats, even with a small dictionary a botnet can achieve a huge number of devices: ``in one day our binary was deployed to around one hundred thousand devices''.
+The common thing with all these botnet is that they operate on device using BusyBox with default easy password, and it will take some time before manufacturer start to take this into consideration.\newline
 \begin{figure}[h]
  \caption{Example of some username/password hardcoded in the Mirai source code}
  \centering
  \includegraphics[width=1.2\textwidth]{./img/mirai-dict}
  \label{fig:mirai-dict}
 \end{figure}
-As you can see in the figure \ref{fig:mirai-dict} the dictionnary use very simple combination of username/password to bruteforce the telnet connection.
+As you can see in the figure \ref{fig:mirai-dict} the dictionary use very simple combination of username/password to bruteforce the telnet connection.
 
 \subsection{Other vulnerabilities}
-Here his an analysis of the others major botnets and the vulnerabilities they're using.
+Here his an analysis of the others major botnets and the vulnerabilities they are using.
 
 \begin{itemize}
  \item Tsunami/Kaiten.c \autocite{tsunami} : FTP and HTTP
@@ -145,10 +145,10 @@ Here his an analysis of the others major botnets and the vulnerabilities they're
 This overview of the IoT botnet vulnerability usage show multiple things:
 \begin{enumerate}
  \item Telnet bruteforce is the most common vulnerability used by the majority of the botnets.
- \item In order to make a botnet you need to find some vulnerabily that is common of the majority of the IoT devices
- \item A huge majority of the IoT devices are based on a Linux variant
+ \item In order to make a botnet you need to find some vulnerability that is common of the majority of the IoT devices.
+ \item A huge majority of the IoT devices are based on a Linux variant.
 \end{enumerate}
-Telnet is the most used vulnerability because it is the vulnerability that is present on the most device. In the next section the bruteforce process used in the Mirai and bashlite source code will be analysed.
+Telnet is the most used vulnerability because it is the vulnerability that is present on the most devices. In the next section the bruteforce process used in the Mirai and bashlite source code will be analyzed.
 
 \section{Analysing the bruteforce process of Malwares}
 In order to make the bruteforce process the most efficient and equivalent to the one the malwares implements we need to understand how the bruteforce process is done on the malwares.
@@ -159,13 +159,13 @@ In order to make the bruteforce process the most efficient and equivalent to the
 \end{sidewaysfigure}
 As you can see in the figure \ref{fig:bashlite-brute} the bruteforce process work this way :
 \begin{itemize}
-\item There is an infinite loop with a switch case
+\item There is an infinite loop with a switch case.
 
-\item Depending the state the program will read the letters until a certain word
+\item Depending the state the program will read the letters until a certain word.
 
-\item If there is the letters "ncorrect" that means the server reply that the credentials are incorrects the client restart the loop with the state 0
+\item If there is the letters "ncorrect" that means the server reply that the credentials are incorrects the client restart the loop with the state 0.
 
-\item If there is the letters "assword" that means the server is expecting the password to be entered so that set the state 5 which will send the password associated with the login used
+\item If there is the letters "assword" that means the server is expecting the password to be entered so that set the state 5 which will send the password associated with the login used.
 \end{itemize}
 
 The Mirai malware work on the same way and had also a state system. After the state were the malware enter the password it enter on the state called ``SC\_WAITING\_PASSWD\_RESP''. In this state it will use the fonction called ``consume\_any\_prompt'' (figure \ref{fig:mirai-prompt}) to know if the the device has been bruteforced or not.
