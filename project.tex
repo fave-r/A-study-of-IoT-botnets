@@ -31,7 +31,6 @@
 
 \maketitle
 
-
 \tableofcontents
 
 \chapter*{Abstract}
@@ -195,18 +194,17 @@ The problem with this one was that the informations that we could gather with an
 We will present the different projects in the next chapter.
 
 \chapter{Project}
-\section{Implementation}
-This project in order to be able to detect the most number of vulnerable device possible is devided in three different parts. A website, an Android application and a computer ruby application.
-\subsection{Web}
+This project in order to be able to detect the most number of vulnerable device possible is devided in three different parts. A website, an Android application and a computer ruby application. The first section will cover the Web application.
+\section{Web}
 The choice of a web application has ben made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application thats can be accessed with the url : \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
 
-\subsubsection{Addressed problems}
+\subsection{Addressed problems}
 The main goal of the wed application is to quickly know if an IoT (or not) device is infected by a Mirai variant or isn't secure enought and the security need to be checked. This application will propose the result with only an IP given as parameter.
 
-\subsubsection{General informations}
+\subsection{General informations}
 The project has been done using the Ruby on Rails framework which is a web framework for the Ruby language. The framework permit overcome a lot of time wasting thanks to a lot of common needs  already implemented in the framework. The framework is based on the Model-View-Controller design pattern. That means that there is two principal class Controller and Model : Controlleur with the logic and Model corresponding to the data. In this project the only model used is the scan class, technically this model correspond to the database table ``scan'' that will log each scan. The most of the code is contained on the show method of the ScansController class.
 
-\subsubsection{Interface}
+\subsection{Interface}
 \begin{figure}[h]
  \caption{Result interface}
  \centering
@@ -215,7 +213,7 @@ The project has been done using the Ruby on Rails framework which is a web frame
 \end{figure}
 The interface has been done as simple as possible, using the bootsrap library \autocite{bootstrap} which is an open source toolkit that help building the front part of a website providing a responsive grid system.
 
-\subsubsection{Explanations}
+\subsection{Explanations}
 The application will make a nmap scan for some ports.
 \begin{itemize}
  \item 22 This is the ssh port which is more secure than telnet
@@ -238,20 +236,20 @@ Each call for an IP scan is saved on a postgresql database in order to permit fu
 \item 48101 port filtered and and 23, 22, 80 ports closed\newline
   Warning : Mirai may be present on this device
 \end{itemize}
-This can be explained because of the fonctionement of Mirai which has been the most dangerous botnet for now. Indeed the malware will kill the telnet, ssh and http services once it start on the device. This means that if we find the port used by Mirai to comunicate with the master open,  with telnet, ssh and http closed that there is a huge possibility that Mirai is active on this device.
-
-\subsection{Mobile}
+This can be explained because of the fonctionement of Mirai which has been the most dangerous botnet for now. Indeed the malware will kill the telnet, ssh and http services once it start on the device. This means that if we find the port used by Mirai to comunicate with the master open,  with telnet, ssh and http closed that there is a huge possibility that Mirai is active on this device.\newline
+The next section will cover the mobile application.
+\section{Mobile}
 A mobile aplication became something really important now. The choice of this technology permit to use a mobile device and scan for a vulnerable device easily.
 
-\subsubsection{Android}
+\subsection{Android}
 Android is not the only one, but it's the one that is well represented and were you can program on any operating system. Because of that Android has been the choosen to be the mobile platform of this project.
 
-\subsubsection{Language, Development and version control}
+\subsection{Language, Development and version control}
 Because of Android the language used on this mobile application is Java. Even if Android provide a support for C++ language using C++ for this application can be a bit overkill and more difficult because there is less library for C++ on Android than with Java.\newline
 The application source code that can be found on the Corpus on the vulscan-android folder has been developed on Android studio which is the IDE provided by Google.\newline
 During all the project the source code has been versioned using git on Github platform.
 
-\subsubsection{Explanation and interface}
+\subsection{Explanation and interface}
 The android application called Vulscan for vulnerability scanner will scan the Wifi where the device is connected to find devices that are vulnerable to Mirai and alternative botnets using exactly the same bruteforce approach that the code of the malware. If a device is vulnerable (the login and password association is in the dictionary used) it will be displayed in red, if not it will be displayed in green.
 \begin{figure}[h]
  \caption{Screenshot of the application}
@@ -260,10 +258,10 @@ The android application called Vulscan for vulnerability scanner will scan the W
  \label{fig:screen-act}
 \end{figure}
 
-\subsubsection{Details}
+\subsection{Details}
 Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:screen-act}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork (. If the device get a response a background bruteforce task is created. A bruteforce process can take a long time that is why each time a device is found a new background task is created so all bruteforce are done in parallel using asynchronous tasks.
 
-\subsubsection{Bruteforce process}
+\subsection{Bruteforce process}
 For each device found in the subnetwork a Bruteforce process is started, this Buteforce process is represented by the asyncBruteForceTelnet class.\newline
 Code on the scan process:
 \lstset{language=Java}
@@ -283,9 +281,10 @@ The language used is Java, so to handle the the telnet process the library ``org
  \label{fig:checkconnected}
 \end{figure}
 The code as in the malware Mirai will first try to bruteforce on the port 23 and after if that didn't work will try on the port 2323.\newline
-The aplication has been made to send enought informations to the final user, but beeing the most efficient possible because it will run on a mobile device possibly not with a huge amount of RAM and a recent processor.
+The aplication has been made to send enought informations to the final user, but beeing the most efficient possible because it will run on a mobile device possibly not with a huge amount of RAM and a recent processor.\newline
+In the next section we will cover the computer version of the project.
 
-\subsection{Computer}
+\section{Computer}
 In order to analyse more devices and to gather more informations on the scanned devices:
 \begin{itemize}
  \item Operating system of the scanned device
@@ -293,12 +292,12 @@ In order to analyse more devices and to gather more informations on the scanned 
 \end{itemize}
 The idea has been to make the same type of aplication (Vulscan mobile) on a computer.
 
-\subsubsection{Language, Development and version control}
+\subsection{Language, Development and version control}
 The idea was to make a cross-platform application, in order to do that an interpreted language has been used, in this case Ruby.
 The software can be find in the ``vulscan-ruby'' folder on the corpus. This application has been developed using emacs on a Linux environment.\newline
 During all the project the source code has been versioned using git on Github platform.
 
-\subsubsection{Explanation}
+\subsection{Explanation}
 The application has been developped in order to be very modular and respecting the standard good practices. In order to do that the code is separated in multiple class whith each one a very specific role. In order to launch a scan a script has been added to the code ``script.rb''.\newline
 The code use some external libraries to perfom some actions:
 \begin{itemize}
@@ -315,7 +314,7 @@ With all these libraries the code will also use two executable:
 \end{itemize}
 The software will be able to work on any computer, as long as all the libraries (called gem in Ruby) and the two executables are present.
 
-\subsubsection{Details and differences with the Android software}
+\subsection{Details and differences with the Android software}
 The major difference is that the software will use the preferend network as follow:
 \begin{enumerate}
  \item cabled network (RJ45)
@@ -330,10 +329,10 @@ Another difference with the Android software is that the Ruby application will u
  \label{fig:result-os}
 \end{sidewaysfigure}
 
-\subsubsection{Interface}
+\subsection{Interface}
 This software is more dedicated to an advertised public, indeed there is no graphical user interface the only way to interact and receive the results from the software is from console. But the software has been done in the way that no configuration or needs from the user (other than press ctrl+c to exit) is needed. When a bruteforce is on going the results are printed on the console, so the user can know all the login/passwords tested and the valid credentials if the device is bruteforced.
 
-\subsubsection{Details}
+\subsection{Details}
 In order to launch a scan the method ``sniff'' from an object of type ``NetworkSniff'' need to be called. Indeed that will launch a scan and all the process will be running. This method will run and ping all the possible device on the subnetwork and each time one device is found a bruteforce process will be run in background thanks to the gem ``Sucker Punch'' \autocite{suckerpunch}:
 
 \lstset{language=Ruby}
@@ -371,10 +370,13 @@ tmp.each do |k, v|
 end
 \end{lstlisting}
 The tmp variable is an element of the bruteforce dictionary containing one login and one password. The author used a each to separate it in ``k'' and ``v'' (key/value) with ``k'' the login and ``v'' the password. If the library didn't receive the prompt (so the login failed) a Net::ReadTimeout exception is throw. That is why in this case the ``valid = 1'' is not used and instead the ``valid = 0'' is done. If the login worked (so the bruteforce worked) the login and password are saved in the ``user'' and ``pass'' variable and the ``valid'' variable is set to one and the loop will be ended (this is not visible is the code above).\newline
-The code as in the malware Mirai will first try to bruteforce on the port 23 and after if that didn't work will try on the port 2323.
+The code as in the malware Mirai will first try to bruteforce on the port 23 and after if that didn't work will try on the port 2323.\newline
+\newline
+We now have covered all the three different projects, in the next chapter we will cover how they have been tested.
 
 \chapter{Testing}
 In this chapter we will discuss how the different softwares has been tested and validated or not.
+
 \section{Real tests}
 The different softwares has been tested against a lot of existing products that can be found on the market:
 \begin{itemize}
@@ -415,7 +417,8 @@ Alternatively the Canary doesn't have any port open when scanned (figure \ref{fi
 
 \footnotetext{\fullcite{canary}}
 
-Testing all of these devices didn't show us what we where expecting. On the other hand that's a pretty good news, that means that all these ``personal'' devices are not vulnerable to this type of attack. ``personal'' because these type of devices are more likely to be used by individual users and not companies. As presented on the paper ``Hey, you keep away from my device'' \autocite{cao2017hey} the cameras that are more likely to be infected are ``old and low-end products which have no firmware update capability''. That being said, these type of cameras are the type used by a huge amount of companies because they can be purchased in large quantities and are inexpensives. In order to test this type of camera the author should have bought this type of camera in advance.
+Testing all of these devices didn't show us what we where expecting. On the other hand that's a pretty good news, that means that all these ``personal'' devices are not vulnerable to this type of attack. ``personal'' because these type of devices are more likely to be used by individual users and not companies. As presented on the paper ``Hey, you keep away from my device'' \autocite{cao2017hey} the cameras that are more likely to be infected are ``old and low-end products which have no firmware update capability''. That being said, these type of cameras are the type used by a huge amount of companies because they can be purchased in large quantities and are inexpensives. In order to test this type of camera the author should have bought this type of camera in advance.\newline
+In the next section we will explain how those project have been tested without a proper manufactured device.
 
 \section{Proof of concept}
 In the absence of a real vulnerable device the idea has been to use a server.
@@ -448,15 +451,15 @@ This test present the application actually bruteforcing the device. This is also
  \includegraphics[width=1.2\textwidth]{./img/exp/screen-test-ruby}
  \label{fig:test-ruby-serv}
 \end{figure}
-In the figures \ref{fig:test-and-serv} and \ref{fig:test-ruby-serv} you can see the results of this tests showing the server has been bruteforced with both devices. In the this test server was using the user ``service'' and the password ``service'' witch is one of the entry of the Mirai dictionary. But the both application have been tested with other server using different credentials. 
-
+In the figures \ref{fig:test-and-serv} and \ref{fig:test-ruby-serv} you can see the results of this tests showing the server has been bruteforced with both devices. In the this test server was using the user ``service'' and the password ``service'' witch is one of the entry of the Mirai dictionary. But the both application have been tested with other servera using different credentials.\newline
+The next chapter will details all the conclusions we can have and will try to analyse the work undertaken.  
 
 \chapter{Conclusions}
 Now the IoT devices are pretty much everywhere and there is still some devices that are not enough secure. Fortunately the newer devices selled by huge brand for the lambda user appear to not be vulnerable to the vulnerabily of the already existing botnets. But thoses botnets worked because a lot af the vulnerable devices are on the market and used by a certain type users. Those devices represent a huge amount of computers, and because of that they have been used to make huge DDOS attacks. We will discuss here the validity of the work undertaken.\newline
 The tools have not been tested on ``real'' device vulnerable.\newline
 The three different tools are making a complete sort of ``suite'' of tools because they all permit to test with different aspects.\newline
-Those tools even if they have not been tested on real vulnerable device have a bruteforce system relatively the same than the malwares and have been tested on devices relatively closes to the vulnerables devices. That been said the author estimate at 98\% the chance that the tools to be actually working tools on real manufactured device.
-
+Those tools even if they have not been tested on real vulnerable device have a bruteforce system relatively the same than the malwares and have been tested on devices relatively closes to the vulnerables devices. That been said the author estimate at 98\% the chance that the tools to be actually working tools on real manufactured device.\newline
+The next chapter will analyse the futur work that can be done after this project.
 
 \chapter{Futur work}
 Even considering the tools at actually tested working tools there is area on the IoT botnets world that are worth investing time for other research. Here is a list of domains found during the realisation of this project:
