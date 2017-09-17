@@ -34,50 +34,47 @@
 \tableofcontents
 
 \chapter*{Abstract}
-In a world where IoT systems are more and more common how can you manage to know if a brand new device is secure? Being really close to the malware approach and giving complete tools to analyze devices and show if analyzed device can be infected by known botnets. In this paper we will present these tools that can in our test detect vulnerable device based on the approach of Mirai and Bashlite botnets. With those tools anyone can know if his subnetwork contain vulnerable devices.
+In a world where IoT systems are more and more common how can you manage to know if a brand new device is secure? Being really close to the malware approach and giving complete tools to analyze devices and show if analyzed device can be infected by known botnets. In this paper we will present these tools that can in our test, detect vulnerable device based on the approach of Mirai and Bashlite botnets. With those tools anyone can know if his subnetwork contain vulnerable devices.
 
 \chapter*{Acknowledgements}
-I would like to express all my gratitude to a certain number of people.\newline
-To my supervisor Julio Hernandez-Castro for all advice he gave to me.\newline
-To Budi Arief for the help and all the device that could have been tested during all the project.\newline
-I would also like to thank all my family and my girlfriend who stayed in my country and have helped and encouraged me.
+I would like to express all my gratitude to my supervisor Julio Hernandez-Castro for all advice he gave to me.\\
+I'm also extending my gratitude to Budi Arief for the help and all the devices that could have been tested during all the project.\\
+And finally my thanks to all my family, my friends and my girlfriend who stayed in my homeland and have helped and encouraged me.
 
 \chapter{Introduction}
-In our actual world we need in permanence control over a lot of things. The expansion of the IoT system permit to cover that need for us. All these new systems will create new possible targets. Analysis of the malwares that will take those devices as target and find vulnerable devices will be the goals of this dissertation.\newline
+In our actual world we need in permanence control over a lot of things. The expansion of the Internet of Things (IoT) system have permitted to cover that need for us. All these new systems will create new possible targets. Analysis of the malwares that will take those devices as target and find vulnerable devices will be the goals of this dissertation.\newline
 Starting by analyzing the botnets code we will explain how we will be able to detect vulnerable devices.
 
 \section{Structure}
 In this paper the main subject is how the botnets works and how to detect vulnerable devices.\newline
-The next chapter will cover the knowledge needed to understand the basics of the botnets. The chapter three will cover all the actual literature already existing on the subject.\newline
-The chapter four will detail the problem, and the chapter five will explain in detail how the botnets work.\newline
-Then, in chapter six the methodology during all the project is covered, just before giving all the details about the project in chapter seven. The chapter eight will explain how the project has been tested in order to prove it is actually working.\newline
+The next chapter will cover the knowledge needed to understand the basics of the botnets. The following chapter will cover almost all the literature already existing on the subject.\newline
+The chapter four will detail the problem solved by this project, and the following chapter will explain in detail how the botnets work.\newline
+Then, in chapter six the project's methodology will be covered, just before giving all the details about the project in chapter seven. The chapter eight will explain how the project has been tested in order to prove it is actually working.\newline
 The chapter nine and ten are the conclusion where we will discuss the work undertaken by this project and the future work that can be done.
 
 \chapter{Preliminaries}
 \section{Botnets}
-In order to present the study on the botnets acting on Internet of Things devices the study will start explaining what is a botnet? A botnet is composed by a bot in charge of the infection using well-known exploit for vulnerable machine. The bot may be capable of self-propagation that will make the infection grow very quickly. The difference with other malware is the usage of a command and control (C\&C) capacity. The bots are (may) always (be) connected to the C\&C, this ability permit the master machine to control all the bots. For example, the master can make distributed denial-of-service attack asking all his bots to make a lot of requests on the same server in order to make the server unable to respond.
+In order to present the study on the botnets acting on IoT devices the study will start explaining what is a botnet? A botnet is composed by a bot\footnote{piece of software that can execute commands, reply to messages, or perform routine tasks, either automatically or with minimal human intervention} in charge of the infection using well-known exploit for vulnerable machine. The bot may be capable of self-propagation that will induce an exponential growth infection. The difference with other malware is the usage of a Command and Control (C\&C) capacity. The bots are or may always be connected to the C\&C, this ability permit the master machine to control all underlying bots. For example, the master can make distributed Denial-of-Service(DoS) attack asking all his bots to generate a lot of request on the same server in order to render the server unable to respond.
 
 \section{Internet of Things}
 \label{sec:preiot}
 You may think that you already know what Internet of Things is. Well that can be true, but to be sure this section will state what IoT will mean in the the rest of the study. Indeed, in this paper we will use the definition of Angrishi, Kishore \autocite{angrishi2017turning} of IoT : ``these smart devices cannot be seen as specialized devices with intelligence built-in but rather as computers which does specialized jobs''. Using this definition can make things really different, and means that there no difference between a laptop and the CCTV camera in the supermarket.
 
 \chapter{Literature review}
-The purpose of this chapter is to explain the context of this research looking already existing literature and software.\newline
-\newline
+The purpose of this chapter is to explain the context of this research regarding current literature and software.\newline
 
 \section{Botnet analysis}
 Botnets, are not really a new thing has said in this paper from Feily Shahrestani in 2009 \autocite{feily2009survey} : ``Botnets are emerging as the most significant threat facing online ecosystems and computing assets''. Botnets are known for years, but before the explosion of the number of IoT devices the botnets were only constituted with normal computers. However, the same year (2009) maybe the first botnet targeting some sort of IoT device was released : Psyb0t \autocite{durfina2013psybot}. This botnet may not be the first one for certain sources \autocite{angrishi2017turning} because they think of a previous one in 2008, but their sources are not very sure. Psyb0t is a botnet that was targeting routers. It was the first botnet that wasn't targeting personal computers, the difference with personal computer is that in IoT devices you're not expecting some action of the user to infect the device. Indeed, using the definition of IoT mentioned earlier (section \ref{sec:preiot}) a router is an IoT device because it's a computer with specialized jobs, here routing packets.\newline
 In the next section we will explain how Mirai one of the most important IoT Botnet works.
 
 \section{Mirai}
-I couldn't start this study without talking about Mirai. Mirai is an IoT botnet, but the most interesting thing about Mirai is that the source code of this botnet is now open source. At its peak, Mirai infected 4000 IoT devices
-per hour and currently it is estimated to have little more than half a million infected active IoT devices \autocite{angrishi2017turning}. Mirai botnet gain a certain amount of notoriety with the deny of service attack on October 21st 2016. This attack was a new steps in the distributed deny of service world with the new record of 1.1To/s against Dyn Managed DNS. Targeting this service makes a huge part of the internet became inaccessible (Amazon.com, BBC, Paypal, Airbnb, Visa, etc.) because Dyn DSN was not able to respond anymore.\newline
-Putting the sources of this botnet open source generated two things. The first one, which is pretty nice is that a lot of research can be done with the code source analysis. However, the problem is even if Anna-Senpai is not acting anymore (this is the pseudo used by the Mirai creator) the open source code has been used by a huge amount of script kiddies or by more professional author that will modify the code to be more powerful and more secure. Since the code is open source pretty much all the recent attacks made on IoT used the same approach as Mirai : telnet brute-force.
-One evolution of Mirai was Linux/IRCTelnet which also use telnet brute-force and the same dictionary as Mirai to infiltrate the device.\newline
+Doing this study without talking about Mirai is a nonsense. Mirai is an IoT botnet, but the most interesting thing about Mirai is that the source code of this botnet is now open source. At its peak, Mirai infected 4000 IoT devices per hour and currently it is estimated to have little more than half a million infected active IoT devices \autocite{angrishi2017turning}. Mirai botnet gain a certain amount of notoriety with the deny of service attack on October 21st 2016. This attack was a new steps in the distributed deny of service world with the new record of 1.1To/s against Dyn Managed DNS. Targeting this service makes a huge part of the internet became inaccessible (Amazon.com, BBC, Paypal, Airbnb, Visa, etc.) because Dyn DSN was not able to respond anymore.\newline
+Opening the sources of this botnet generated two things. The first one, which is pretty nice is that a lot of research undertaken with the source code analysis. However, even if Anna-Senpai \footnote{the pseudo used by the Mirai's creator}is not acting anymore the open source code has been used by a huge amount of script kiddies or by more professional author that have/will continue to adapt/modify the code to something more powerful and more secure. Since the code is open source pretty much all the recent attacks made on IoT used Mirai's way: telnet brute-force.
+One evolution of Mirai was Linux/IRCTelnet which also use telnet brute-force and the same dictionary as Mirai to infiltrate devices.\newline
 \newline
-Mirai is designed in such way that any infected device try to infect any other device around him. Mirai is also designed in that the scan for new device that can be infected is always active. This permit to spread the infection very quickly. Also, if a device infected is factory resets most likely this device will be infected very quickly because their neighbours are scanning. Mirai was the big step in the IoT botnets world.\newline
+Mirai is designed in such way that any infected device try to infect any other device around him. Mirai is also continuously scanning for new device open for infection. This permit to spread the infection very quickly. Also, if an infected device is factory resets most likely this device will be again quickly infected because his neighbors are scanning. Mirai was the big step in the IoT botnets world.\newline
 \newline
-As you can see in the figure \ref{fig:botnet-fonct}, how an IoT botnet work is pretty simple, each device will infect new devices that will be reported to the master, and the master can control every device infected.\newline
+As you can see in the figure \ref{fig:botnet-fonct}, how an IoT botnet work is pretty simple, each device will infect new devices that will be reported to the master, and the master can control every infected device.\newline
 The next chapter will outline the purposes of this project.
 \newpage
 \begin{figure}[h]
@@ -90,17 +87,17 @@ The next chapter will outline the purposes of this project.
 
 
 \chapter{Problem Description}
-The focus of this paper is the new approach of the hackers focusing on the IoT systems. When looking IoT devices as computers that permit to understand some problems. Normally now when someone uses a computer, this is common to have some antivirus on it or to do some practices to protect it. However, is this common to do it on a watch ? A fridge ? Or on a brand new bulb ? These Computers are less protected and this remains a huge issues for IoT devices \autocite{yang2017survey}. These things can more or less do the same things as ``normal'' computer. We will focus on the usage of the IoT devices on botnets by hackers. We will manage to find when a device can potentially be infected by a botnet. The importance may not be obvious because who cares if your watch is part of a botnet that does not stop it to work. However, these botnets are usually used to make huge deny of service attacks \autocite{hallman2017ioddos}. Knowing that potentially some of our devices are not secured will permit us to change the security of our devices to prevent themselves to feed some botnet.\newline
+Let's carry now the focus on new approaches of hackers on IoT's systems. When looking IoT devices as computers that permit to understand some problems. In our days when someone uses a computer, this is common to have some antivirus on it or to do some practices to protect it. However, is this common to do it on a watch ? A fridge ? Or on a brand new bulb ? These computers are less protected and this remains a huge issues for IoT devices \autocite{yang2017survey}. These things can more or less do the same things as ``normal'' computer. We will focus on the usage of the IoT devices on botnets by hackers. We will manage to find when a device can potentially be infected by a botnet. The importance may not be obvious because who cares if your watch is part of a botnet that does not stop it to work. However, these botnets are usually used to make huge deny of service attacks \autocite{hallman2017ioddos}. Knowing that potentially some of our devices are not secured will permit us to change the security of our devices to prevent themselves to feed some botnet.\newline
 The in-depth analysis of the Mirai and Bashlite malware will be covered in the next chapter.
 
 \chapter{Requirements Analysis}
 In order to be able to start a project that will help detect an infected device we need to have a look at different existing botnets malware.
 
 \section{C\&C connection}
-A device infected by a botnet will need to be monitored by his C\&C server in some way. The malware will need to set up a small server that will monitor a port in order to receive the orders from the master machine. Knowing the ports used by a botnet and the form of the packet going from the C\&C to the machine can permit to catch an infected device. Indeed, knowing this information can permit to make a monitoring device that will throw some alerts in case of weird detection.\newline
-In order to do this the analysis of the Mirai source code give the information that the bot will expect incoming data from the C\&C server on the port: 48101.
-However, trying to analyze the only one pcap file (capture of packets) available online did not give any information about the transmitted packets.
-Analazing the code of the other one big IoT botnet Bashlite, did not give us more information, the bot is not listening on any ports, but will be gathering new information on the C\&C periodically using by default the 6667 port.\newline
+A device infected by a botnet will need to be monitored by his C\&C server in some way. The malware will need to set up a light server that will monitor a port in order to receive orders from the master machine. Knowing ports used by a botnet and the form of packets going from the C\&C to the machine can enable to catch an infected device. Indeed, knowing this information can permit to install a monitoring device that will throw some alerts in case of weird detection.\newline
+The analysis of the Mirai source code provides the information that the bot will expect incoming data from the C\&C server on the port: 48101.
+However, trying to analyze the only one pcap file\footnote{capture of packets} available online did not give any information about the transmitted packets.
+Analyzing the code of the other one big IoT botnet Bashlite, wasn't helping either since this bot is not listening on any ports, but gathers his new information on the C\&C periodically using by default port 6667.\newline
 In the next section we will cover all the vulnerabilities used in the various existing IoT botnets.
 
 \section{Vulnerabilities}
@@ -108,7 +105,7 @@ In the next section we will cover all the vulnerabilities used in the various ex
 To investigate the major vulnerabilities this need to analyze some of the existing botnets.
 
 \subsection{Telnet}
-Telnet is a pretty old protocol \autocite{davidson1977arpanet}, however, this protocol is way more simple to implement than ssh. This is why this protocol has been chose in the vast majority of the IoT devices. Looking on the history of the IoT botnet telnet has been chose as the number one vulnerability of the devices:
+Telnet is a pretty old protocol \autocite{davidson1977arpanet}, however, this protocol is way more simple to implement than Secure Shell (SSH). This is why this protocol has been chosen in the vast majority of the IoT devices. Looking on the history of the IoT botnet telnet has been used as the number one vulnerability of devices:
 
 \begin{itemize}
  \item Psyb0t \autocite{durfina2013psybot}
@@ -122,7 +119,7 @@ Telnet is a pretty old protocol \autocite{davidson1977arpanet}, however, this pr
  \item Linux/IRCTelnet (new Aidra) \autocite{irctelnet}
 \end{itemize}
 
-All those existing botnets are based on the telnet vulnerability. They are bruteforcing the default user/password combination set by the manufacturer. Indeed, based on the Carna botnet \autocite{carna} stats, even with a small dictionary a botnet can achieve a huge number of devices: ``in one day our binary was deployed to around one hundred thousand devices''.
+All those existing botnets are based on a telnet vulnerability. They are brute-forcing the default user/password couple set by the manufacturer. Indeed, based on the Carna botnet \autocite{carna} stats, even with a small dictionary a botnet can achieve a huge number of devices: ``in one day our binary was deployed to around one hundred thousand devices''.
 The common thing with all these botnet is that they operate on device using BusyBox with default easy password, and it will take some time before manufacturer start to take this into consideration.\newline
 \begin{figure}[h]
  \caption{Example of some username/password hardcoded in the Mirai source code}
@@ -133,8 +130,7 @@ The common thing with all these botnet is that they operate on device using Busy
 As you can see in the figure \ref{fig:mirai-dict} the dictionary use very simple combination of username/password to brute-force the telnet connection.
 
 \subsection{Other vulnerabilities}
-Here his an analysis of the others major botnets and the vulnerabilities they are using.
-
+Here his an analysis of the others major botnets and the associated vulnerabilities.
 \begin{itemize}
  \item Tsunami/Kaiten.c \autocite{tsunami} : FTP and HTTP
  \item Linux.Darlloz \autocite{darlloz} : PHP
@@ -142,13 +138,13 @@ Here his an analysis of the others major botnets and the vulnerabilities they ar
 \end{itemize}
 
 \subsection{Conclusions}
-This overview of the IoT botnet vulnerability usage show multiple things:
+This overview of the IoT botnet vulnerability usage show multiple things over thoses devices:
 \begin{enumerate}
- \item Telnet brute-force is the most common vulnerability used by the majority of the botnets.
- \item In order to make a botnet you need to find some vulnerability that is common of the majority of the IoT devices.
- \item A huge majority of the IoT devices are based on a Linux variant.
+ \item A wild spread communication protocol, Telnet.
+ \item A shared vulnerability.
+ \item An almost identical Operating System in piece a Linux variant.
 \end{enumerate}
-Telnet is the most used vulnerability because it is the vulnerability that is present on the most devices. In the next section the brute-force process used in the Mirai and bashlite source code will be analyzed.
+In the next section the brute-force process used in the Mirai and Bashlite source code will be analyzed.
 
 \section{Analysing the brute-force process of Malwares}
 In order to make the brute-force process the most efficient and equivalent to the one the malwares implements we need to understand how the brute-force process is done on the malwares.
@@ -181,8 +177,8 @@ In the next chapter, all the reflection process (methodology) used during all th
 
 \chapter{Methodology}
 \section{Analysis and choices}
-As presented during the vulnerability analysis section \ref{sec:vulnerabilities}, the choice made by the majority of the IoT hackers botnet creator is to use telnet to access the device. \newline
-The first choice during the evolution of the project has been to focus on the botnets that are brute-forcing the telnet connection because this is the majority of the botnets.
+As presented during the vulnerability analysis section \ref{sec:vulnerabilities}, the choice made by the majority of the IoT hackers botnet creator was to use Telnet to access the device. \newline
+The first choice during the evolution of the project has been to focus on the botnets that are brute-forcing the Telnet connection because this is the majority of the botnets.
 This is the most important security breach in the IoT devices, the mean of communication and the most used in the IoT botnets is: telnet. The Goal of this project is to be able to detect a vulnerable device.\newline
 The next section will cover the evolution of the project in-depth.
 
@@ -190,20 +186,20 @@ The next section will cover the evolution of the project in-depth.
 At the start of the project the first thing has been to analyze the source code of the Mirai botnet. Indeed, because the source code is now open source reading the source code permit to understand how a botnet malware actually work. This steps give us a lot of information like the port that is used by the malware to communicate with the master.\newline
 Having this information the first idea has been to create a web application that scan a device. With the knowledge of the existing botnets, it will give the result to know if this device is possibly infected or not.\newline
 After this first achievement, the other idea has been to be more accessible to a novice user. Indeed, with the previous usage this was a bit difficult to analyse your home or other place.\newline
-That is why the new idea was to use a mobile device, in this case a mobile phone. The project will use the same steps seen in the Mirai source code to see in the connected wifi if some devices are vulnerable to this type of attack.\newline
-The problem with this one was that the information that we could gather with an Android device wasn't enough if we have very similar device to find which device is which. The idea was to use nmap to gather information of the target operating system. In that case that can only be done on a rooted android device. That is why the new idea has been to make the project working on computer, so the new idea is a Ruby application. The new advantage of this project is that he scan the subnetwork either on wifi or wired.\newline
+That is why the new idea was to use a mobile device, in this case a mobile phone. The project has used the same steps seen for the Mirai's source code and search for the connected wifi devices.\newline
+The problem with this one was that the information that we could gather with an Android device wasn't enough if we have very similar device at home (same brand) to find which device is which. The idea was to use nmap\autocite{nmap} to guess the target operating system type and version. In that case that can only be done on a rooted android device. That is why the new idea has been to make the project working on computer, so the new idea is a Ruby\autocite{ruby} application. The new advantage of this approach is that it scan the subnetwork either on Wifi or wired.\newline
 We will present the different projects in the next chapter.
 
 \chapter{Project}
-This project in order to be able to detect the most numbers of vulnerable device possible is divided in three different parts. A website, an Android application and a computer ruby application. The first section will cover the Web application.
+This project in order to be able to detect the most numbers of vulnerable device possible is divided in three different parts. A website, an Android application and a computer Ruby application. The first section will cover the Web application.
 \section{Web}
-The choice of a web application has been made because a web application can be accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application that can be accessed with the url: \url{https://romaricfave.xyz} as long as I am keeping the server and I am the owner of the domain name.\newline
+The choice of a web application has been made because a web application can be easily accessed by anybody and permit to make the test available to anyone. The website is a Ruby on Rails website application that can be accessed with the url: \url{https://romaricfave.xyz} as long as the server and the Domain Name are kept.\newline
 
 \subsection{Addressed problems}
-The main goal of the wed application is to quickly know if an IoT (or not) device is infected by a Mirai variant or isn't secure enough and the security need to be checked. This application will propose the result with only an IP given as parameter.
+The main goal of the Wed application is to quickly know if an IoT (or not) device is infected by a Mirai variant or isn't secure enough and the security need to be checked. This application report the result with only an IP given as parameter.
 
 \subsection{General informations}
-The project has been done using the Ruby on Rails framework, which is a web framework for the Ruby language. The framework permits overcome a lot of time wasting thanks to a lot of common needs  already implemented in the framework. The framework is based on the Model-View-Controller design pattern. That means that there are two principal class Controller and Model: Controller with the logic and Model corresponding to the data. In this project the only model used is the scan class, technically this model correspond to the database table ``scan'' that will log each scan. Most of the code is contained on the show method of the ScansController class.
+The project has been done using the Ruby on Rails framework, which is a Web framework for the Ruby language. The framework permits overcome a lot of time wasting, thanks to a bunch of common function already implemented in the framework. The framework is based on the Model-View-Controller design pattern. This means that there are two main class Controller and Model: Controller with the logic and Model corresponding to the data. In this project the only model used was the scan class, technically this model correspond to the database table ``scan'' that logs each scan. Most of the code is contained on the show method of the ScansController class.
 
 \subsection{Interface}
 \begin{figure}[h]
@@ -212,17 +208,17 @@ The project has been done using the Ruby on Rails framework, which is a web fram
  \includegraphics[width=1.3\textwidth]{./img/vulweb-result}
  \label{fig:screen-act}
 \end{figure}
-The interface has been done as simple as possible, using the bootsrap library\autocite{bootstrap}, which is an open source toolkit that help building the front part of a website providing a responsive grid system.
+The interface has been done as simple as possible, using the bootsrap library\autocite{bootstrap}, which is an open source toolkit that has helped building the front part of the website providing a responsive grid system.
 
 \subsection{Explanations}
-The application will make a nmap scan for some ports.
+The application will make a Nmap scan for some chosen ports.
 \begin{itemize}
- \item 22 This is the ssh port, which is more secure than telnet.
+ \item 22 This is the SSH port, which is more secure than Telnet.
  \item 23 This is the telnet port.
- \item 2323 This is a port found on Mirai source code, and sometime used as alternate port for telnet.
+ \item 2323 This is a port found on Mirai source code, and sometime used as alternate port for Telnet.
  \item 48101 This is a port used by Mirai to dialog with the C\&C server.
 \end{itemize}
-Each call for an IP scan is saved on a postgresql database in order to permit future statistics on the scans. With the knowledge of the Mirai botnet, and the analysis of the state of the ports the different response that can be given by the web application are:
+Each call for an IP scan is saved on a PostgreSQL\autocite{postgesql} database in order to permit future statistics on the scans. With the knowledge of the Mirai botnet, and the analysis of the port's state, the responses given by the Web application are:
 \begin{itemize}
 \item 23 port open\newline
   Warning: Telnet port is open be careful not to use a default password (prefer ssh)
@@ -237,21 +233,22 @@ Each call for an IP scan is saved on a postgresql database in order to permit fu
 \item 48101 port filtered and 23, 22, 80 ports closed\newline
   Warning: Mirai may be present on this device
 \end{itemize}
-This can be explained because of how Mirai works which has been the most dangerous botnet for now. Indeed, the malware will kill the telnet, ssh and http services once it starts on the device. This means that if we find the port used by Mirai to communicate with the master open,  with telnet, ssh and http closed that there is a huge possibility that Mirai is active on this device.\newline
+This can be explained because of how Mirai works which has been the most dangerous botnet for now. Indeed, the malware will kill the Telnet, SSH and HTTP services once it starts on the device. This means that if we find the port used by Mirai to communicate with the master open,  with Telnet, SSH and HTTP closed, there is a huge possibility that Mirai is active on this device.\newline
 The next section will cover the mobile application.
+
 \section{Mobile}
 A mobile application became something really important now. The choice of this technology permits to use a mobile device and scan for a vulnerable device easily.
 
 \subsection{Android}
-Android is not the only one, but it's the one that is well represented and where you can program on any operating system. Because of that Android has been the chosen to be the mobile platform of this project.
+Android is not the only one, but it's the one that is well represented and where you can program on any operating system. Because of that Android has been the chosen to be the mobile platform of this project. Moreover it is based on Linux kernel as the IoT which simplify the implementation.
 
 \subsection{Language, Development and version control}
-Because of Android the language used on this mobile application is Java. Even if Android provide a support for C++ language using C++ for this application can be a bit overkill and more difficult because there is less library for C++ on Android than with Java.\newline
+Because of Android the language used on this mobile application is Java. Even if Android provide a support for C++ language using it for such application can be a bit overkill and more time consuming due to a lack of available library for C++ on Android rather than Java.\newline
 The application source code that can be found on the Corpus on the vulscan-android folder has been developed on Android studio, which is the IDE provided by Google.\newline
-During all the project we used a Version control git on Github platform for the source code.
+During all the project we used git Version Control on GitHub\autocite{github} platform for the source code.
 
 \subsection{Explanation and interface}
-The android application called Vulscan for vulnerability scanner will scan the Wifi where the device is connected to find devices that are vulnerable to Mirai and alternative botnets using exactly the same brute-force approach that the code of the malware. If a device is vulnerable (the login and password association is in the dictionary used) it will be displayed in red. On the other hand, if not it will be displayed in green.
+The android application called Vulscan for vulnerability scanner scans the Wifi where the device is connected to find devices that are vulnerable to Mirai and alternative botnets using exactly the same brute-force approach seen in the malware's code. If a device is vulnerable (login and password association in a dictionary) it will be displayed in red. On the other hand, if not it will be displayed in green.
 \begin{figure}[h]
  \caption{Screenshot of the application}
  \centering
@@ -260,7 +257,7 @@ The android application called Vulscan for vulnerability scanner will scan the W
 \end{figure}
 
 \subsection{Details}
-Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:screen-act}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork (. If the device gets a response a background brute-force task is created. A brute-force process can take a long time that is why each time a device is found a new background task is created so all brute-force are done in parallel using asynchronous tasks.
+Once the start button is pressed (blue button on bottom right corner on the figure \ref{fig:screen-act}) the application launch a background task that with try to ping all the possible IP existing on the subnetwork. If the device gets a response a background brute-force task is created. A brute-force process can take a long time, that is why each time a device is found a new background task is created so all brute-force are done in parallel using asynchronous tasks.
 
 \subsection{brute-force process}
 For each device found in the subnetwork a brute-force process is started, this brute-force process is represented by the asyncBruteForceTelnet class.\newline
